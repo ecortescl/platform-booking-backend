@@ -14,11 +14,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Role.init({
-    idRole: DataTypes.INTEGER,
     name: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Role',
+    timestamps: false
   });
+
+  Role.associate = function(models) {
+    Role.hasMany(models.PermissionsRole, { foreignKey: 'idRole'});
+    Role.hasMany(models.User, {foreignKey: 'idRole'});
+  };
+
   return Role;
 };

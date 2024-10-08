@@ -14,10 +14,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   PermissionsRole.init({
-    idPermissionsRole: DataTypes.INTEGER
+    idRole: DataTypes.INTEGER,
+    idPermission: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'PermissionsRole',
+    timestamps: false
   });
+
+  PermissionsRole.associate = function(models) {
+    PermissionsRole.belongsTo(models.Permission, { foreignKey: 'idPermission'});
+    PermissionsRole.belongsTo(models.Role, { foreignKey: 'idRole'});
+  };
+
   return PermissionsRole;
 };

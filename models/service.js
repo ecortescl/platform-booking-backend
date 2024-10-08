@@ -14,12 +14,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Service.init({
-    idService: DataTypes.INTEGER,
     name: DataTypes.STRING,
     description: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Service',
+    timestamps: false
   });
+
+  Service.associate = function(models) {
+    Service.hasMany(models.ServicesUser, {foreignKey: 'idService'});
+  };
+
   return Service;
 };

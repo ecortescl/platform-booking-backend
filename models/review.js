@@ -14,12 +14,20 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Review.init({
-    idReview: DataTypes.INTEGER,
     date: DataTypes.DATE,
-    description: DataTypes.STRING
+    description: DataTypes.STRING,
+    idUserWriter: DataTypes.INTEGER,
+    idUserReceiver: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Review',
+    timestamps: false
   });
+
+  Review.associate = function(models) {
+    Review.belongsTo(models.User, { foreignKey: 'idUserWriter'})
+    Review.belongsTo(models.User, { foreignKey: 'idUserReceiver'})
+  };
+
   return Review;
 };

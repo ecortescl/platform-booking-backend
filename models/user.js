@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    idUser: DataTypes.INTEGER,
     run: DataTypes.STRING,
     names: DataTypes.STRING,
     surnames: DataTypes.STRING,
@@ -24,9 +23,23 @@ module.exports = (sequelize, DataTypes) => {
     location: DataTypes.STRING,
     specialty: DataTypes.STRING,
     registered: DataTypes.BOOLEAN,
+    idRole: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'User',
+    timestamps: false
   });
+
+  User.associate = function(models) {
+    User.belongsTo(models.Role, { foreignKey: 'idRole'});
+    User.hasMany(models.Review, { foreignKey: 'idUserWriter'})
+    User.hasMany(models.Review, { foreignKey: 'idUserReceiver'})
+    User.hasMany(models.Calendar, { foreignKey: 'idUser'});
+    User.hasMany(models.Appointment, { foreignKey: 'idUserClient'})
+    User.hasMany(models.Appointment, { foreignKey: 'idUserProfessional'})
+    User.hasMany(models.Comment, { foreignKey: 'idUser'});
+    User.hasMany(models.ServicesUser, { foreignKey: 'idUser'});
+  };
+
   return User;
 };

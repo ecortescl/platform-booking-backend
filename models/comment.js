@@ -14,11 +14,19 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Comment.init({
-    idComment: DataTypes.INTEGER,
-    comments: DataTypes.STRING
+    comments: DataTypes.STRING,
+    idUser: DataTypes.INTEGER,
+    idAppointment: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Comment',
+    timestamps: false
   });
+
+  Comment.associate = function(models) {
+    Comment.belongsTo(models.User, { foreignKey: 'idUser'});
+    Comment.belongsTo(models.Appointment, { foreignKey: 'idAppointment'});
+  };
+
   return Comment;
 };

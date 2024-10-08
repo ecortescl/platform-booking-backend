@@ -14,10 +14,19 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   ServicesUser.init({
-    idServicesUser: DataTypes.INTEGER
+    idUser: DataTypes.INTEGER,
+    idService: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'ServicesUser',
+    timestamps: false
   });
+  
+  ServicesUser.associate = function(models) {
+    ServicesUser.belongsTo(models.Service, { foreignKey: 'idService'});
+    ServicesUser.belongsTo(models.User, { foreignKey: 'idUser'});
+  };
+
   return ServicesUser;
+
 };

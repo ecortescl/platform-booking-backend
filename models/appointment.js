@@ -14,13 +14,24 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Appointment.init({
-    idAppointment: DataTypes.INTEGER,
     state: DataTypes.STRING,
     category: DataTypes.STRING,
-    description: DataTypes.STRING
+    description: DataTypes.STRING,
+    idUserClient: DataTypes.INTEGER,
+    idUserProfessional: DataTypes.INTEGER,
+    idSlot: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Appointment',
+    timestamps: false
   });
+
+  Appointment.associate = function(models) {
+    Appointment.belongsTo(models.User, { foreignKey: 'idUserClient'});
+    Appointment.belongsTo(models.User, { foreignKey: 'idUserProfessional'});
+    Appointment.belongsTo(models.Slot, { foreignKey: 'idSlot'});
+    Appointment.hasMany(models.Comment, { foreignKey: 'idAppointment'})
+  };
+
   return Appointment;
 };

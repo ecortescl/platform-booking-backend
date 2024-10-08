@@ -14,14 +14,21 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Slot.init({
-    idSlot: DataTypes.INTEGER,
     startTime: DataTypes.TIME,
     endTime: DataTypes.TIME,
     state: DataTypes.STRING,
-    date: DataTypes.DATE
+    date: DataTypes.DATE,
+    idCalendar: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Slot',
+    timestamps: false
   });
+
+  Slot.associate = function(models) {
+    Slot.hasOne(models.Appointment, { foreignKey: 'idSlot'});
+    Slot.belongsTo(models.Calendar, { foreignKey: 'idCalendar'})
+  };
+
   return Slot;
 };
