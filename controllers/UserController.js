@@ -41,18 +41,7 @@ exports.getUserById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const user = await User.findByPk(id, {
-      include: [
-        { model: Role, attributes: ['name'] },  // Mostrar rol
-        { model: Review, as: 'idUserWriter' },  
-        { model: Review, as: 'idUserReceiver' },
-        { model: Calendar },
-        { model: Appointment, as: 'idUserClient' },
-        { model: Appointment, as: 'idUserProfessional' },
-        { model: Comment },
-        { model: ServicesUser }
-      ]
-    });
+    const user = await User.findByPk(id);
 
     if (user) {
       res.status(200).json({ user });
