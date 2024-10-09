@@ -3,8 +3,8 @@ const { User, Role, Review, Calendar, Appointment, Comment, ServicesUser } = req
 // Crear un nuevo usuario
 exports.createUser = async (req, res) => {
   try {
-    // Extrae los datos del cuerpo de la solicitud
-    const { run, names, surnames, email, phone, password, location, specialty, registered, idRole } = req.body;
+    // // Extrae los datos del cuerpo de la solicitud
+    // const { run, names, surnames, email, phone, password, location, specialty, registered, idRole } = req.body;
 
 
     // Crear el usuario
@@ -68,7 +68,7 @@ exports.getUserById = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { run, names, surnames, email, phone, password, location, specialty, registered, idRole } = req.body;
+    // const { run, names, surnames, email, phone, password, location, specialty, registered, idRole } = req.body;
 
     const user = await User.findByPk(id);
 
