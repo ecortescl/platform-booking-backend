@@ -1,7 +1,7 @@
 const express = require("express")
 const cors = require("cors");
 const { ALLOWED_HOSTS } = require("./config");
-const userRouter = require('./routes/userRoutes')
+const userRoutes = require('./routes/userRoutes')
 
 const app = express();
 
@@ -12,6 +12,6 @@ app.use(cors({
     credentials: true,
 }))
 
-app.use(userRouter);
+app.use(userRoutes);
 
 module.exports = app;
