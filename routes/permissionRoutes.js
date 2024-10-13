@@ -5,18 +5,18 @@ const router = express.Router();
 const PermissionController = require('../controllers/PermissionController');
 
 // Ruta para obtener todos los permisos
-router.get('/permissions', PermissionController.getPermissions);
+router.get('/', PermissionController.getPermissions);
 
 // Ruta para crear un nuevo permiso
-router.post('/permissions', PermissionController.createPermission);
+router.post('/', PermissionController.createPermission);
 
 // Ruta para obtener un permiso por su ID
-router.get('/permissions/:id', PermissionController.getPermissionById);
+router.get('/:id', PermissionController.getPermissionById);
 
 // Ruta para actualizar un permiso por ID
-router.put('/permissions/:id', PermissionController.updatePermission);
+router.put('/:id', PermissionController.updatePermission);
 
 // Ruta para eliminar un permiso por ID
-router.delete('/permissions/:id', PermissionController.deletePermission);
+router.delete('/:id', PermissionController.deletePermission);
 
 module.exports = router;

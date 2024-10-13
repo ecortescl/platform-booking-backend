@@ -5,18 +5,18 @@ const router = express.Router();
 const CommentController = require('../controllers/CommentController');
 
 // Ruta para obtener todos los comentarios
-router.get('/comments', CommentController.getComments);
+router.get('/', CommentController.getComments);
 
 // Ruta para crear un nuevo comentario
-router.post('/comments', CommentController.createComment);
+router.post('/', CommentController.createComment);
 
 // Ruta para obtener un comentario por su ID
-router.get('/comments/:id', CommentController.getCommentById);
+router.get('/:id', CommentController.getCommentById);
 
 // Ruta para actualizar un comentario por ID
-router.put('/comments/:id', CommentController.updateComment);
+router.put('/:id', CommentController.updateComment);
 
 // Ruta para eliminar un comentario por ID
-router.delete('/comments/:id', CommentController.deleteComment);
+router.delete('/:id', CommentController.deleteComment);
 
 module.exports = router;

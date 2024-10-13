@@ -5,18 +5,18 @@ const router = express.Router();
 const CalendarController = require('../controllers/CalendarController');
 
 // Ruta para obtener todos los calendarios
-router.get('/calendars', CalendarController.getCalendars);
+router.get('/', CalendarController.getCalendars);
 
 // Ruta para crear un nuevo calendario
-router.post('/calendars', CalendarController.createCalendar);
+router.post('/', CalendarController.createCalendar);
 
 // Ruta para obtener un calendario por su ID
-router.get('/calendars/:id', CalendarController.getCalendarById);
+router.get('/:id', CalendarController.getCalendarById);
 
 // Ruta para actualizar un calendario por ID
-router.put('/calendars/:id', CalendarController.updateCalendar);
+router.put('/:id', CalendarController.updateCalendar);
 
 // Ruta para eliminar un calendario por ID
-router.delete('/calendars/:id', CalendarController.deleteCalendar);
+router.delete('/:id', CalendarController.deleteCalendar);
 
 module.exports = router;
