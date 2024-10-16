@@ -3,6 +3,8 @@ const cors = require("cors");
 const { ALLOWED_HOSTS } = require("./config");
 
 const app = express();
+const { authenticateToken } = require('./middleware/authMiddleware'); // Importar el middleware de autenticación
+const { verifyRole } = require('./middleware/roleMiddleware'); // Importar el middleware de verificación de roles
 
 app.use(express.json())
 
@@ -31,14 +33,26 @@ const userRoutes = require("./routes/userRoutes");
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/calendars", calendarRoutes);
 app.use("/api/comments", commentRoutes);
-app.use("/api/calendars", permissionRoutes);
-app.use("/api/calendars", permissionsroleRoutes);
-app.use("/api/calendars", reviewRoutes);
-app.use("/api/calendars", roleRoutes);
-app.use("/api/calendars", serviceRoutes);
-app.use("/api/calendars", serviceuserRoutes);
-app.use("/api/calendars", slotRoutes);
-app.use("/api/users", userRoutes);
+app.use("/api/permission", permissionRoutes);
+app.use("/api/permissionsrole", permissionsroleRoutes);
+app.use("/api/review", reviewRoutes);
+app.use("/api/role", roleRoutes);
+app.use("/api/service", serviceRoutes);
+app.use("/api/serviceuser", serviceuserRoutes);
+app.use("/api/slot", slotRoutes);
+app.use("/api/user", userRoutes);
 
+// Uso del middleware para proteger rutas
+app.get('/admin', authenticateToken, verifyRole('administrador'), (req, res) => {
+    res.send('Bienvenido al panel de administración.'); // Mensaje para administradores
+  });
+
+app.get('/profesional/dashboard', authenticateToken, verifyRole('profesional'), (req, res) => {
+    res.send('Panel de control del profesional.'); // Mensaje para profesionales
+  });
+
+app.get('/cliente/reservar', authenticateToken, verifyRole('cliente'), (req, res) => {
+    res.send('Funcionalidad de reserva de citas.'); // Mensaje para clientes
+  });
 
 module.exports = app;

@@ -19,4 +19,7 @@ router.put('/:id', UserController.updateUser);
 // Ruta para eliminar un usuario por su ID
 router.delete('/:id', UserController.deleteUser);
 
+// Ruta para iniciar sesión
+router.post('/login', UserController.loginUser); 
+
 module.exports = router;

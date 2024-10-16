@@ -91,3 +91,23 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ message: 'Error al eliminar usuario', error: err.message });
   }
 };
+
+// Método para iniciar sesión
+exports.loginUser = async (req, res) => {
+  try {
+    // Verificar si el usuario existe
+    const user = await User.findOne({ where: { email: req.body.email } });
+    if (!user) return res.status(400).send('Email o contraseña incorrectos.');
+
+    // Verificar la contraseña
+    const validPass = await bcrypt.compare(req.body.password, user.password);
+    if (!validPass) return res.status(400).send('Email o contraseña incorrectos.');
+
+    // Crear y asignar un token JWT
+    const token = jwt.sign({ _id: user.id, role: user.role }, process.env.JWT_SECRET);
+    res.header('Authorization', `Bearer ${token}`).send('Inicio de sesión exitoso.');
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error al iniciar sesión', error: err.message });
+  }
+};
