@@ -2,11 +2,11 @@ const { Role, User, PermissionsRole } = require('../models'); // Importa todos l
 
 // Crear un nuevo rol
 exports.createRole = async (req, res) => {
+  console.log('Request body:', req.body); // Log the incoming request body
   try {
-    // Crear el rol
     const newRole = await Role.create(req.body);
+    console.log('Rol creado:', newRole); // Log the created role
 
-    // Respuesta exitosa
     res.status(201).json({
       message: 'Rol creado con éxito',
       role: newRole

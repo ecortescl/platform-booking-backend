@@ -1,6 +1,7 @@
 const express = require("express")
 const cors = require("cors");
 const { ALLOWED_HOSTS } = require("./config");
+require('dotenv').config();
 
 const app = express();
 const { authenticateToken } = require('./middleware/authMiddleware'); // Importar el middleware de autenticación
