@@ -14,7 +14,9 @@
     "express": "^4.21.0",
     "mysql2": "^3.11.3",
     "sequelize": "^6.37.4",
-    "sequelize-cli": "^6.6.2"
+    "sequelize-cli": "^6.6.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@types/node": "^22.7.4"

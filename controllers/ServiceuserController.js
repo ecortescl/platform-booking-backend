@@ -21,12 +21,7 @@ exports.createServicesUser = async (req, res) => {
 // Obtener todos los servicios de usuarios
 exports.getServicesUsers = async (req, res) => {
   try {
-    const servicesUsers = await ServicesUser.findAll({
-      include: [
-        { model: User, attributes: ['id', 'names', 'surnames'] },  // Incluir detalles del usuario asociado
-        { model: Service, attributes: ['id', 'name'] }  // Incluir detalles del servicio asociado
-      ]
-    });
+    const servicesUsers = await ServicesUser.findAll();
     res.status(200).json({ servicesUsers });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener servicios de usuarios', error: err.message });
@@ -38,12 +33,7 @@ exports.getServicesUserById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const servicesUser = await ServicesUser.findByPk(id, {
-      include: [
-        { model: User, attributes: ['id', 'names', 'surnames'] },  // Incluir detalles del usuario asociado
-        { model: Service, attributes: ['id', 'name'] }  // Incluir detalles del servicio asociado
-      ]
-    });
+    const servicesUser = await ServicesUser.findByPk(id);
 
     if (servicesUser) {
       res.status(200).json({ servicesUser });

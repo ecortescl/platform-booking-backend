@@ -21,12 +21,7 @@ exports.createCalendar = async (req, res) => {
 // Obtener todos los calendarios
 exports.getCalendars = async (req, res) => {
   try {
-    const calendars = await Calendar.findAll({
-      include: [
-        { model: User, attributes: ['id', 'names', 'surnames'] }, // Incluir detalles del usuario
-        { model: Slot, attributes: ['id', 'startTime', 'endTime'] } // Incluir detalles de los slots
-      ]
-    });
+    const calendars = await Calendar.findAll();
     res.status(200).json({ calendars });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener calendarios', error: err.message });
@@ -38,12 +33,7 @@ exports.getCalendarById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const calendar = await Calendar.findByPk(id, {
-      include: [
-        { model: User, attributes: ['id', 'names', 'surnames'] }, // Incluir detalles del usuario
-        { model: Slot, attributes: ['id', 'startTime', 'endTime'] } // Incluir detalles de los slots
-      ]
-    });
+    const calendar = await Calendar.findByPk(id);
 
     if (calendar) {
       res.status(200).json({ calendar });

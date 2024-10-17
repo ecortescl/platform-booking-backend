@@ -3,12 +3,26 @@ const { User, Role, Review, Calendar, Appointment, Comment, ServicesUser } = req
 // Crear un nuevo usuario
 exports.createUser = async (req, res) => {
   try {
-    // // Extrae los datos del cuerpo de la solicitud
-    // const { run, names, surnames, email, phone, password, location, specialty, registered, idRole } = req.body;
+    // Extrae los datos del cuerpo de la solicitud
+    const { run, names, surnames, email, phone, password, location, specialty, registered, idRole } = req.body;
 
+    // Hash  password antes de guardarla
+    const saltRounds = 10; // Number of rounds  hashing
+    const hashedPassword = await bcrypt.hash(password, saltRounds); // Hash  password
 
-    // Crear el usuario
-    const newUser = await User.create(req.body);
+    // Crear el usuario con el password hasheado
+    const newUser = await User.create({
+      run,
+      names,
+      surnames,
+      email,
+      phone,
+      password: hashedPassword, // Usar la contraseña hash
+      location,
+      specialty,
+      registered,
+      idRole
+    });
 
     // Respuesta exitosa
     res.status(201).json({
@@ -25,11 +39,7 @@ exports.createUser = async (req, res) => {
 // Obtener todos los usuarios
 exports.getUsers = async (req, res) => {
   try {
-    const users = await User.findAll({
-      include: [
-        { model: Role, attributes: ['name'] }  
-      ]
-    });
+    const users = await User.findAll();
     res.status(200).json({ users });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener usuarios', error: err.message });
@@ -89,5 +99,34 @@ exports.deleteUser = async (req, res) => {
     res.status(200).json({ message: 'Usuario eliminado con éxito' });
   } catch (err) {
     res.status(500).json({ message: 'Error al eliminar usuario', error: err.message });
+  }
+};
+
+// Método para inciar sesión
+exports.loginUser = async (req, res) => {
+  try {
+    // Verificar si el usuario existe
+    const user = await User.findOne({ where: { email: req.body.email } });
+
+    // Debugging: Log email and found user
+    console.log('Email:', req.body.email);
+    console.log('User found:', user);
+
+    if (!user) return res.status(400).send('Email o contraseña incorrectos.');
+
+    // Verificar la contraseña
+    const validPass = await bcrypt.compare(req.body.password, user.password);
+
+    // Debugging: Log valid password result
+    console.log('Password valid:', validPass);
+
+    if (!validPass) return res.status(400).send('Email o contraseña incorrectos.');
+
+    // Crear y asignar un token JWT
+    const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET);
+    res.header('Authorization', `Bearer ${token}`).send('Inicio de sesión exitoso.');
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error al iniciar sesión', error: err.message });
   }
 };

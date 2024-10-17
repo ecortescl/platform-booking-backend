@@ -21,12 +21,7 @@ exports.createReview = async (req, res) => {
 // Obtener todas las reseñas
 exports.getReviews = async (req, res) => {
   try {
-    const reviews = await Review.findAll({
-      include: [
-        { model: User, as: 'UserWriter', attributes: ['id', 'names', 'surnames'] }, // Incluir detalles del escritor
-        { model: User, as: 'UserReceiver', attributes: ['id', 'names', 'surnames'] }  // Incluir detalles del receptor
-      ]
-    });
+    const reviews = await Review.findAll();
     res.status(200).json({ reviews });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener reseñas', error: err.message });
@@ -38,12 +33,7 @@ exports.getReviewById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const review = await Review.findByPk(id, {
-      include: [
-        { model: User, as: 'UserWriter', attributes: ['id', 'names', 'surnames'] }, // Incluir detalles del escritor
-        { model: User, as: 'UserReceiver', attributes: ['id', 'names', 'surnames'] }  // Incluir detalles del receptor
-      ]
-    });
+    const review = await Review.findByPk(id);
 
     if (review) {
       res.status(200).json({ review });
