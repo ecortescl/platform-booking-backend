@@ -21,11 +21,7 @@ exports.createService = async (req, res) => {
 // Obtener todos los servicios
 exports.getServices = async (req, res) => {
   try {
-    const services = await Service.findAll({
-      include: [
-        { model: ServicesUser, attributes: ['idUser'] }  // Incluir detalles de ServicesUser asociados si es necesario
-      ]
-    });
+    const services = await Service.findAll();
     res.status(200).json({ services });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener servicios', error: err.message });
@@ -37,11 +33,7 @@ exports.getServiceById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const service = await Service.findByPk(id, {
-      include: [
-        { model: ServicesUser, attributes: ['idUser'] }  // Incluir detalles de ServicesUser asociados si es necesario
-      ]
-    });
+    const service = await Service.findByPk(id);
 
     if (service) {
       res.status(200).json({ service });

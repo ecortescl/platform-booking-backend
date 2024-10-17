@@ -34,14 +34,14 @@ const userRoutes = require("./routes/userRoutes");
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/calendars", calendarRoutes);
 app.use("/api/comments", commentRoutes);
-app.use("/api/permission", permissionRoutes);
+app.use("/api/permissions", permissionRoutes);
 app.use("/api/permissionsrole", permissionsroleRoutes);
-app.use("/api/review", reviewRoutes);
-app.use("/api/role", roleRoutes);
-app.use("/api/service", serviceRoutes);
-app.use("/api/serviceuser", serviceuserRoutes);
-app.use("/api/slot", slotRoutes);
-app.use("/api/user", userRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/roles", roleRoutes);
+app.use("/api/services", serviceRoutes);
+app.use("/api/servicesUser", serviceuserRoutes);
+app.use("/api/slots", slotRoutes);
+app.use("/api/users", userRoutes);
 
 // Uso del middleware para proteger rutas
 app.get('/admin', authenticateToken, verifyRole('administrador'), (req, res) => {

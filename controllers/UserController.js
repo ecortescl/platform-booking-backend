@@ -42,11 +42,7 @@ exports.createUser = async (req, res) => {
 // Obtener todos los usuarios
 exports.getUsers = async (req, res) => {
   try {
-    const users = await User.findAll({
-      include: [
-        { model: Role, attributes: ['name'] }  
-      ]
-    });
+    const users = await User.findAll();
     res.status(200).json({ users });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener usuarios', error: err.message });

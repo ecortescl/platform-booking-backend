@@ -21,11 +21,7 @@ exports.createSlot = async (req, res) => {
 // Obtener todos los slots
 exports.getSlots = async (req, res) => {
   try {
-    const slots = await Slot.findAll({
-      include: [
-        { model: Calendar, attributes: ['id', 'date'] }  // Incluir detalles del calendario asociado si es necesario
-      ]
-    });
+    const slots = await Slot.findAll();
     res.status(200).json({ slots });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener slots', error: err.message });
@@ -37,11 +33,7 @@ exports.getSlotById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const slot = await Slot.findByPk(id, {
-      include: [
-        { model: Calendar, attributes: ['id', 'date'] }  // Incluir detalles del calendario asociado si es necesario
-      ]
-    });
+    const slot = await Slot.findByPk(id);
 
     if (slot) {
       res.status(200).json({ slot });

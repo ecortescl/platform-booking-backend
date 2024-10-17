@@ -21,11 +21,7 @@ exports.createPermission = async (req, res) => {
 // Obtener todos los permisos
 exports.getPermissions = async (req, res) => {
   try {
-    const permissions = await Permission.findAll({
-      include: [
-        { model: PermissionsRole, attributes: ['idRole'] } // Incluir detalles de los roles asociados
-      ]
-    });
+    const permissions = await Permission.findAll();
     res.status(200).json({ permissions });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener permisos', error: err.message });
@@ -37,11 +33,7 @@ exports.getPermissionById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const permission = await Permission.findByPk(id, {
-      include: [
-        { model: PermissionsRole, attributes: ['idRole'] } // Incluir detalles de los roles asociados
-      ]
-    });
+    const permission = await Permission.findByPk(id);
 
     if (permission) {
       res.status(200).json({ permission });

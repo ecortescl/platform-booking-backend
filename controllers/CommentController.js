@@ -21,12 +21,7 @@ exports.createComment = async (req, res) => {
 // Obtener todos los comentarios
 exports.getComments = async (req, res) => {
   try {
-    const comments = await Comment.findAll({
-      include: [
-        { model: User, attributes: ['id', 'names', 'surnames'] }, // Incluir detalles del usuario
-        { model: Appointment, attributes: ['id', 'date'] } // Incluir detalles de la cita
-      ]
-    });
+    const comments = await Comment.findAll();
     res.status(200).json({ comments });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener comentarios', error: err.message });
@@ -38,12 +33,7 @@ exports.getCommentById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const comment = await Comment.findByPk(id, {
-      include: [
-        { model: User, attributes: ['id', 'names', 'surnames'] }, // Incluir detalles del usuario
-        { model: Appointment, attributes: ['id', 'date'] } // Incluir detalles de la cita
-      ]
-    });
+    const comment = await Comment.findByPk(id);
 
     if (comment) {
       res.status(200).json({ comment });

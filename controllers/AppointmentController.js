@@ -21,14 +21,7 @@ exports.createAppointment = async (req, res) => {
 // Obtener todas las citas
 exports.getAppointments = async (req, res) => {
   try {
-    const appointments = await Appointment.findAll({
-      include: [
-        { model: User, as: 'UserClient', attributes: ['id', 'names', 'surnames'] }, // Incluir detalles del cliente
-        { model: User, as: 'UserProfessional', attributes: ['id', 'names', 'surnames'] }, // Incluir detalles del profesional
-        { model: Slot, attributes: ['id', 'startTime', 'endTime'] }, // Incluir detalles del slot
-        { model: Comment, attributes: ['id', 'comments'] } // Incluir detalles de los comentarios
-      ]
-    });
+    const appointments = await Appointment.findAll();
     res.status(200).json({ appointments });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener citas', error: err.message });
@@ -40,14 +33,7 @@ exports.getAppointmentById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const appointment = await Appointment.findByPk(id, {
-      include: [
-        { model: User, as: 'UserClient', attributes: ['id', 'names', 'surnames'] }, // Incluir detalles del cliente
-        { model: User, as: 'UserProfessional', attributes: ['id', 'names', 'surnames'] }, // Incluir detalles del profesional
-        { model: Slot, attributes: ['id', 'startTime', 'endTime'] }, // Incluir detalles del slot
-        { model: Comment, attributes: ['id', 'comments'] } // Incluir detalles de los comentarios
-      ]
-    });
+    const appointment = await Appointment.findByPk(id);
 
     if (appointment) {
       res.status(200).json({ appointment });
