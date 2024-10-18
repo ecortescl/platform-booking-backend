@@ -1,4 +1,6 @@
 const { User, Role, Review, Calendar, Appointment, Comment, ServicesUser } = require('../models'); // Importa todos los modelos necesarios
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
 
 // Crear un nuevo usuario
 exports.createUser = async (req, res) => {
@@ -106,7 +108,13 @@ exports.deleteUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     // Verificar si el usuario existe
-    const user = await User.findOne({ where: { email: req.body.email } });
+    const user = await User.findOne({ 
+      where: { email: req.body.email } ,
+      include: [{
+        model: Role,
+        attributes: ['name']
+      }]
+    });
 
     // Debugging: Log email and found user
     console.log('Email:', req.body.email);
@@ -123,7 +131,7 @@ exports.loginUser = async (req, res) => {
     if (!validPass) return res.status(400).send('Email o contraseña incorrectos.');
 
     // Crear y asignar un token JWT
-    const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: user.id, role: user.Role.name }, process.env.JWT_SECRET);
     res.header('Authorization', `Bearer ${token}`).send('Inicio de sesión exitoso.');
   } catch (err) {
     console.error(err);

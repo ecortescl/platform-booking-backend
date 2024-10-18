@@ -1,5 +1,6 @@
 const app = require("./app")
 const { PORT } = require("./config")
+require('dotenv').config();
 
 async function main() {
     try {
