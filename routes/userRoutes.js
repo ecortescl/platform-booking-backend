@@ -169,6 +169,53 @@ router.put('/:id', UserController.updateUser);
 // Ruta para eliminar un usuario por su ID
 router.delete('/:id', UserController.deleteUser);
 
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     BearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ * 
+ * @swagger
+ * paths:
+ *   /api/users/login:
+ *     post:
+ *       tags: [User]
+ *       summary: "Autenticación de usuario"
+ *       operationId: "loginUser"
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 email:
+ *                   type: string
+ *                   example: "test@test.com"
+ *                 password:
+ *                   type: string
+ *                   example: "contraseñaSegura"
+ *       responses:
+ *         '200':
+ *           description: "Login exitoso"
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   token:
+ *                     type: string
+ *                     example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ *         '401':
+ *           description: "Credenciales incorrectas"
+ *         '500':
+ *           description: "Error interno del servidor"
+ *       security: []
+ */
+
 router.post('/login', UserController.loginUser); 
 
 module.exports = router;
