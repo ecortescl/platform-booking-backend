@@ -1,42 +1,60 @@
 const { User, Role, Review, Calendar, Appointment, Comment, ServicesUser } = require('../models'); // Importa todos los modelos necesarios
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
+const { body, validationResult } = require('express-validator');
 
 // Crear un nuevo usuario
-exports.createUser = async (req, res) => {
-  try {
-    // Extrae los datos del cuerpo de la solicitud
-    const { run, names, surnames, email, phone, password, location, specialty, registered, idRole } = req.body;
+exports.createUser = [
+  // Validation and sanitization
+  body('run').trim().isLength({ min: 1 }).escape(),
+  body('names').trim().isLength({ min: 2 }).escape(),
+  body('surnames').trim().isLength({ min: 2 }).escape(),
+  body('email').isEmail().normalizeEmail(),
+  body('phone').optional().trim().escape(),
+  body('password').isLength({ min: 6 }).escape(),
+  body('location').optional().trim().escape(),
+  body('specialty').optional().trim().escape(),
+  body('registered').optional().isBoolean(),
+  body('idRole').optional().isInt(),
 
-    // Hash  password antes de guardarla
-    const saltRounds = 10; // Number of rounds  hashing
-    const hashedPassword = await bcrypt.hash(password, saltRounds); // Hash  password
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-    // Crear el usuario con el password hasheado
-    const newUser = await User.create({
-      run,
-      names,
-      surnames,
-      email,
-      phone,
-      password: hashedPassword, // Usar la contraseña hash
-      location,
-      specialty,
-      registered,
-      idRole
-    });
+    try {
+      const { run, names, surnames, email, phone, password, location, specialty, registered, idRole } = req.body;
 
-    // Respuesta exitosa
-    res.status(201).json({
-      message: 'Usuario creado con éxito',
-      user: newUser
-    });
+      // Hash password
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Error al crear usuario', error: err.message });
+      const newUser = await User.create({
+        run,
+        names,
+        surnames,
+        email,
+        phone,
+        password: hashedPassword,
+        location,
+        specialty,
+        registered,
+        idRole
+      });
+
+      res.status(201).json({
+        message: 'Usuario creado con éxito',
+        user: newUser
+      });
+
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error al crear usuario', error: err.message });
+    }
   }
-};
+];
+
 
 // Obtener todos los usuarios
 exports.getUsers = async (req, res) => {
@@ -104,37 +122,39 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
+
 // Método para inciar sesión
-exports.loginUser = async (req, res) => {
-  try {
-    // Verificar si el usuario existe
-    const user = await User.findOne({ 
-      where: { email: req.body.email } ,
-      include: [{
-        model: Role,
-        attributes: ['name']
-      }]
-    });
+exports.loginUser = [
+  // Validation and sanitization
+  body('email').isEmail().normalizeEmail(),
+  body('password').notEmpty().escape(),
 
-    // Debugging: Log email and found user
-    console.log('Email:', req.body.email);
-    console.log('User found:', user);
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-    if (!user) return res.status(400).send('Email o contraseña incorrectos.');
+    try {
+      const user = await User.findOne({
+        where: { email: req.body.email },
+        include: [{
+          model: Role,
+          attributes: ['name']
+        }]
+      });
 
-    // Verificar la contraseña
-    const validPass = await bcrypt.compare(req.body.password, user.password);
+      if (!user) return res.status(400).send('Email o contraseña incorrectos.');
 
-    // Debugging: Log valid password result
-    console.log('Password valid:', validPass);
+      const validPass = await bcrypt.compare(req.body.password, user.password);
 
-    if (!validPass) return res.status(400).send('Email o contraseña incorrectos.');
+      if (!validPass) return res.status(400).send('Email o contraseña incorrectos.');
 
-    // Crear y asignar un token JWT
-    const token = jwt.sign({ id: user.id, role: user.Role.name }, process.env.JWT_SECRET);
-    res.header('Authorization', `Bearer ${token}`).send('Inicio de sesión exitoso.');
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Error al iniciar sesión', error: err.message });
+      const token = jwt.sign({ id: user.id, role: user.Role.name }, process.env.JWT_SECRET);
+      res.header('Authorization', `Bearer ${token}`).send('Inicio de sesión exitoso.');
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error al iniciar sesión', error: err.message });
+    }
   }
-};
+];
