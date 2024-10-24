@@ -103,34 +103,3 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ message: 'Error al eliminar usuario', error: err.message });
   }
 };
-
-// Método para inciar sesión
-exports.loginUser = async (req, res) => {
-  try {
-    // Verificar si el usuario existe
-    const user = await User.findOne({ 
-      where: { email: req.body.email } ,
-      include: [{
-        model: Role,
-        attributes: ['name']
-      }]
-    });
-
-    if (!user) return res.status(404).send('No existe un usuario con este email');
-
-    // Verificar la contraseña
-    const validPass = await bcrypt.compare(req.body.password, user.password);
-
-    // Debugging: Log valid password result
-    console.log('Password valid:', validPass);
-
-    if (!validPass) return res.status(400).send('Contraseña incorrecta.');
-
-    // Crear y asignar un token JWT
-    const token = jwt.sign({ id: user.id, role: user.Role.name }, process.env.JWT_SECRET);
-    res.header('Authorization', `Bearer ${token}`).send('Inicio de sesión exitoso.');
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Error al iniciar sesión', error: err.message });
-  }
-};
