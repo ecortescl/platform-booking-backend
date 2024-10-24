@@ -126,8 +126,8 @@ exports.deleteUser = async (req, res) => {
 // Método para inciar sesión
 exports.loginUser = [
   // Validation and sanitization
-  body('email').isEmail().normalizeEmail(),
-  body('password').notEmpty().escape(),
+  body('email').isEmail().withMessage('Email inválido').normalizeEmail(),
+  body('password').isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres').notEmpty().withMessage('La contraseña no debe estar vacía'),
 
   async (req, res) => {
     const errors = validationResult(req);

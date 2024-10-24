@@ -14,10 +14,13 @@ const serviceRoutes = require("./routes/serviceRoutes");
 const serviceuserRoutes = require("./routes/serviceuserRoutes");
 const slotRoutes = require("./routes/slotRoutes");
 const userRoutes = require("./routes/userRoutes");
-
+const xss = require("xss-clean"); 
 const app = express();
 
 app.use(express.json())
+
+// Use xss-clean middleware to sanitize incoming data
+app.use(xss()); 
 
 app.use(cors({
     origin: ALLOWED_HOSTS,

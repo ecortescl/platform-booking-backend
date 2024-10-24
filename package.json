@@ -20,7 +20,8 @@
     "sequelize": "^6.37.4",
     "sequelize-cli": "^6.6.2",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "xss-clean": "^0.1.4"
   },
   "devDependencies": {
     "@types/node": "^22.7.4"
