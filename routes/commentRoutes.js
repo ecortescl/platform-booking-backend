@@ -130,7 +130,7 @@ router.put('/:id', CommentController.updateComment);
  * /api/comments/{id}:
  *  delete:
  *      summary: delete a comment
- *      tags: [Calendar]
+ *      tags: [Comment]
  *      parameters:
  *        - in: path
  *          name: id

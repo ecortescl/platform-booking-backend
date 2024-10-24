@@ -19,6 +19,7 @@ const app = express();
 
 app.use(express.json())
 
+
 // Use xss-clean middleware to sanitize incoming data
 app.use(xss()); 
 
@@ -26,6 +27,7 @@ app.use(cors({
     origin: ALLOWED_HOSTS,
     credentials: true,
 }))
+
 
 //Swagger
 const swaggerUI = require('swagger-ui-express');
@@ -46,9 +48,11 @@ const swaggerSpec = {
         ]
     },
     apis: [`${path.join(__dirname, "./routes/*.js")}`]
+
 }
 
 app.use("/api/docs", swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)))
+
 
 // Usar las rutas
 app.use("/api/appointments", appointmentRoutes);
@@ -62,5 +66,7 @@ app.use("/api/services", serviceRoutes);
 app.use("/api/servicesUser", serviceuserRoutes);
 app.use("/api/slots", slotRoutes);
 app.use("/api/users", userRoutes);
+
+
 
 module.exports = app;

@@ -3,6 +3,39 @@
 const express = require('express');
 const router = express.Router();
 const ServiceController = require('../controllers/ServiceController');
+const csrf = require('csurf');
+const csrfProtection = csrf({ cookie: true });
+const cookieParser = require('cookie-parser');
+
+router.use(cookieParser());
+router.use(csrfProtection);
+
+
+/**
+ * @swagger
+ * /api/services/csrf-token:
+ *  get:
+ *      summary: Get CSRF Token
+ *      tags: [Service]
+ *      responses:
+ *          200:
+ *              description: CSRF token retrieved successfully
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              csrfToken:
+ *                                  type: string
+ *                                  description: The CSRF token to be used in subsequent requests
+ *                          example:
+ *                              csrfToken: "exampleCsrfToken"
+ */
+router.get('/csrf-token', (req, res) => {
+    console.log('CSRF token route hit');
+    const token = req.csrfToken();
+    res.json({ csrfToken: token });
+});
 
 /**
  * @swagger  
@@ -49,7 +82,7 @@ router.get('/', ServiceController.getServices);
  * @swagger
  * /api/services:
  *  post:
- *      summary: create a new service
+ *      summary: Create a new service
  *      tags: [Service]
  *      requestBody:
  *          required: true
@@ -58,13 +91,20 @@ router.get('/', ServiceController.getServices);
  *                  schema:
  *                      type: object
  *                      $ref: '#/components/schemas/Service'
+ *      parameters:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
+ *              type: string
  *      responses:
  *          200:
- *              description: new service created
+ *              description: New service created
  */
 
 // Ruta para crear un nuevo servicio
-router.post('/', ServiceController.createService);
+router.post('/',csrfProtection, ServiceController.createService);
 
 /**
  * @swagger
@@ -140,5 +180,11 @@ router.put('/:id', ServiceController.updateService);
 
 // Ruta para eliminar un servicio por su ID
 router.delete('/:id', ServiceController.deleteService);
+
+
+
+
+
+
 
 module.exports = router;
