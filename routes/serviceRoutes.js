@@ -3,39 +3,6 @@
 const express = require('express');
 const router = express.Router();
 const ServiceController = require('../controllers/ServiceController');
-const csrf = require('csurf');
-const csrfProtection = csrf({ cookie: true });
-const cookieParser = require('cookie-parser');
-
-router.use(cookieParser());
-router.use(csrfProtection);
-
-
-/**
- * @swagger
- * /api/services/csrf-token:
- *  get:
- *      summary: Get CSRF Token
- *      tags: [Service]
- *      responses:
- *          200:
- *              description: CSRF token retrieved successfully
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              csrfToken:
- *                                  type: string
- *                                  description: The CSRF token to be used in subsequent requests
- *                          example:
- *                              csrfToken: "exampleCsrfToken"
- */
-router.get('/csrf-token', (req, res) => {
-    console.log('CSRF token route hit');
-    const token = req.csrfToken();
-    res.json({ csrfToken: token });
-});
 
 /**
  * @swagger  
@@ -73,6 +40,13 @@ router.get('/csrf-token', (req, res) => {
  *                          type: array
  *                          items: 
  *                              $ref: '#components/schemas/Service'
+ *          500:
+ *              description: Error interno al obtener los services
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener todos los servicios
@@ -82,7 +56,7 @@ router.get('/', ServiceController.getServices);
  * @swagger
  * /api/services:
  *  post:
- *      summary: Create a new service
+ *      summary: create a new service
  *      tags: [Service]
  *      requestBody:
  *          required: true
@@ -91,20 +65,20 @@ router.get('/', ServiceController.getServices);
  *                  schema:
  *                      type: object
  *                      $ref: '#/components/schemas/Service'
- *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
  *      responses:
- *          200:
- *              description: New service created
+ *          201:
+ *              description: new service created
+ *          500:
+ *              description: Error interno al crear un service
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para crear un nuevo servicio
-router.post('/',csrfProtection, ServiceController.createService);
+router.post('/', ServiceController.createService);
 
 /**
  * @swagger
@@ -127,6 +101,20 @@ router.post('/',csrfProtection, ServiceController.createService);
  *                      schema:
  *                          type: object
  *                          $ref: '#components/schemas/Service'
+ *          404:
+ *              description: Service no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al obtener el service
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener un servicio por su ID
@@ -155,6 +143,20 @@ router.get('/:id', ServiceController.getServiceById);
  *      responses:
  *          200:
  *              description: The service was updated
+ *          404:
+ *              description: Service no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al actualizar el service
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para actualizar un servicio por su ID
@@ -176,15 +178,23 @@ router.put('/:id', ServiceController.updateService);
  *      responses:
  *          200:
  *              description: The service was deleted
+ *          404:
+ *              description: Service no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al eliminar el service
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para eliminar un servicio por su ID
 router.delete('/:id', ServiceController.deleteService);
-
-
-
-
-
-
 
 module.exports = router;

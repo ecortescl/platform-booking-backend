@@ -35,6 +35,13 @@ const RoleController = require('../controllers/RoleController');
  *                          type: array
  *                          items: 
  *                              $ref: '#components/schemas/Role'
+ *          500:
+ *              description: Error interno al obtener los roles
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener todos los roles
@@ -54,8 +61,20 @@ router.get('/', RoleController.getRoles);
  *                      type: object
  *                      $ref: '#/components/schemas/Role'
  *      responses:
- *          200:
+ *          201:
  *              description: new role created
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al crear un role
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para crear un nuevo rol
@@ -82,6 +101,20 @@ router.post('/', RoleController.createRole);
  *                      schema:
  *                          type: object
  *                          $ref: '#components/schemas/Role'
+ *          404:
+ *              description: Role no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al obtener el role
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener un rol por su ID
@@ -110,6 +143,20 @@ router.get('/:id', RoleController.getRoleById);
  *      responses:
  *          200:
  *              description: The role was updated
+ *          404:
+ *              description: Role no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al actualizar el role
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para actualizar un rol por su ID
@@ -131,6 +178,20 @@ router.put('/:id', RoleController.updateRole);
  *      responses:
  *          200:
  *              description: The role was deleted
+ *          404:
+ *              description: Role no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al eliminar el role
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para eliminar un rol por su ID

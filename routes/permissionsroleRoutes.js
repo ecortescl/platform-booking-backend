@@ -40,6 +40,13 @@ const PermissionsRoleController = require('../controllers/PermissionRoleControll
  *                          type: array
  *                          items: 
  *                              $ref: '#components/schemas/PermissionRole'
+ *          500:
+ *              description: Error interno al obtener los PermissionRole
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener todos los permisos de roles
@@ -61,6 +68,13 @@ router.get('/', PermissionsRoleController.getPermissionsRoles);
  *      responses:
  *          200:
  *              description: new PermissionRole created
+ *          500:
+ *              description: Error interno al crear un PermissionRole
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para crear un nuevo permiso para un rol
@@ -87,6 +101,20 @@ router.post('/', PermissionsRoleController.createPermissionsRole);
  *                      schema:
  *                          type: object
  *                          $ref: '#components/schemas/PermissionRole'
+ *          404:
+ *              description: PermissionRole no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al obtener una PermissionRole
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener un permiso de rol por su ID
@@ -115,6 +143,20 @@ router.get('/:id', PermissionsRoleController.getPermissionsRoleById);
  *      responses:
  *          200:
  *              description: The PermissionRole was updated
+ *          404:
+ *              description: PermissionRole no encontrada
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al actualizar un PermissionRole
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para actualizar un permiso de rol por su ID
@@ -136,6 +178,20 @@ router.put('/:id', PermissionsRoleController.updatePermissionsRole);
  *      responses:
  *          200:
  *              description: The PermissionRole was deleted
+ *          404:
+ *              description: PermissionRole no encontrada
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al eliminar un PermissionRole
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para eliminar un permiso de rol por su ID

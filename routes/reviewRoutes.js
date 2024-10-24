@@ -50,6 +50,13 @@ const ReviewController = require('../controllers/ReviewController');
  *                          type: array
  *                          items: 
  *                              $ref: '#components/schemas/Review'
+ *          500:
+ *              description: Error interno al obtener las reviews
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener todas las reseñas
@@ -69,8 +76,15 @@ router.get('/', ReviewController.getReviews);
  *                      type: object
  *                      $ref: '#/components/schemas/Review'
  *      responses:
- *          200:
+ *          201:
  *              description: new review created
+ *          500:
+ *              description: Error interno al crear una review
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para crear una nueva reseña
@@ -97,6 +111,20 @@ router.post('/', ReviewController.createReview);
  *                      schema:
  *                          type: object
  *                          $ref: '#components/schemas/Review'
+ *          404:
+ *              description: Review no encontrada
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al obtener una review
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener una reseña por su ID
@@ -125,6 +153,20 @@ router.get('/:id', ReviewController.getReviewById);
  *      responses:
  *          200:
  *              description: The review was updated
+ *          404:
+ *              description: Review no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al actualizar la review
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para actualizar una reseña por su ID
@@ -146,6 +188,20 @@ router.put('/:id', ReviewController.updateReview);
  *      responses:
  *          200:
  *              description: The review was deleted
+ *          404:
+ *              description: Review no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al eliminar la review
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para eliminar una reseña por su ID

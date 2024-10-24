@@ -40,6 +40,13 @@ const ServicesUserController = require('../controllers/ServiceuserController');
  *                          type: array
  *                          items: 
  *                              $ref: '#components/schemas/ServiceUser'
+ *          500:
+ *              description: Error interno al obtener los ServiceUser
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener todos los servicios de usuarios
@@ -59,8 +66,15 @@ router.get('/', ServicesUserController.getServicesUsers);
  *                      type: object
  *                      $ref: '#/components/schemas/ServiceUser'
  *      responses:
- *          200:
+ *          201:
  *              description: new ServiceUser created
+ *          500:
+ *              description: Error interno al crear un ServiceUser
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para crear un nuevo servicio para un usuario
@@ -87,6 +101,20 @@ router.post('/', ServicesUserController.createServicesUser);
  *                      schema:
  *                          type: object
  *                          $ref: '#components/schemas/ServiceUser'
+ *          404:
+ *              description: ServiceUser no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al obtener un ServiceUser
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener un servicio de usuario por su ID
@@ -115,6 +143,20 @@ router.get('/:id', ServicesUserController.getServicesUserById);
  *      responses:
  *          200:
  *              description: The ServiceUser was updated
+ *          404:
+ *              description: ServiceUser no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al actualizar el ServiceUser
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para actualizar un servicio de usuario por su ID
@@ -136,6 +178,20 @@ router.put('/:id', ServicesUserController.updateServicesUser);
  *      responses:
  *          200:
  *              description: The ServiceUser was deleted
+ *          404:
+ *              description: ServiceUser no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al eliminar el ServiceUser
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para eliminar un servicio de usuario por su ID

@@ -14,15 +14,25 @@ const serviceRoutes = require("./routes/serviceRoutes");
 const serviceuserRoutes = require("./routes/serviceuserRoutes");
 const slotRoutes = require("./routes/slotRoutes");
 const userRoutes = require("./routes/userRoutes");
-const xss = require("xss-clean"); 
+const authRoutes = require("./routes/authRoutes");
+
+const xss = require("xss-clean");
+const csrf = require('csurf');
+const csrfProtection = csrf({ cookie: true });
+const cookieParser = require('cookie-parser');
+
 const app = express();
 
 app.use(express.json())
 
-
 // Use xss-clean middleware to sanitize incoming data
 app.use(xss()); 
 
+// Use CSRF
+app.use(cookieParser());
+app.use(csrfProtection);
+
+// Use CORS
 app.use(cors({
     origin: ALLOWED_HOSTS,
     credentials: true,
@@ -32,7 +42,8 @@ app.use(cors({
 //Swagger
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
-const path = require('path')
+const path = require('path');
+const { clear } = require("console");
 
 const swaggerSpec = {
     definition: {
@@ -66,7 +77,6 @@ app.use("/api/services", serviceRoutes);
 app.use("/api/servicesUser", serviceuserRoutes);
 app.use("/api/slots", slotRoutes);
 app.use("/api/users", userRoutes);
-
-
+app.use("/api/", authRoutes);
 
 module.exports = app;

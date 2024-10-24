@@ -35,6 +35,13 @@ const PermissionController = require('../controllers/PermissionController');
  *                          type: array
  *                          items: 
  *                              $ref: '#components/schemas/Permission'
+ *          500:
+ *              description: Error interno al obtener los permissions
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener todos los permisos
@@ -56,6 +63,13 @@ router.get('/', PermissionController.getPermissions);
  *      responses:
  *          200:
  *              description: new comment created
+ *          500:
+ *              description: Error interno al crear un permission
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para crear un nuevo permiso
@@ -82,6 +96,20 @@ router.post('/', PermissionController.createPermission);
  *                      schema:
  *                          type: object
  *                          $ref: '#components/schemas/Permission'
+ *          404:
+ *              description: Permission no encontrada
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al obtener un permission
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener un permiso por su ID
@@ -110,6 +138,20 @@ router.get('/:id', PermissionController.getPermissionById);
  *      responses:
  *          200:
  *              description: The permission was updated
+ *          404:
+ *              description: Permission no encontrada
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al actualizar un permission
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para actualizar un permiso por ID
@@ -131,6 +173,20 @@ router.put('/:id', PermissionController.updatePermission);
  *      responses:
  *          200:
  *              description: The permission was deleted
+ *          404:
+ *              description: Permission no encontrada
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al eliminar un permission
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para eliminar un permiso por ID
