@@ -45,6 +45,13 @@ const CommentController = require('../controllers/CommentController');
  *                          type: array
  *                          items: 
  *                              $ref: '#components/schemas/Comment'
+ *          500:
+ *              description: Error interno al obtener los comments
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener todos los comentarios
@@ -66,6 +73,13 @@ router.get('/', CommentController.getComments);
  *      responses:
  *          200:
  *              description: new comment created
+ *          500:
+ *              description: Error interno al crear un comment
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para crear un nuevo comentario
@@ -92,6 +106,20 @@ router.post('/', CommentController.createComment);
  *                      schema:
  *                          type: object
  *                          $ref: '#components/schemas/Comment'
+ *          404:
+ *              description: Comment no encontrada
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al obtener un comment
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener un comentario por su ID
@@ -120,6 +148,20 @@ router.get('/:id', CommentController.getCommentById);
  *      responses:
  *          200:
  *              description: The comment was updated
+ *          404:
+ *              description: Comment no encontrada
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al actualizar un comment
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para actualizar un comentario por ID
@@ -141,6 +183,20 @@ router.put('/:id', CommentController.updateComment);
  *      responses:
  *          200:
  *              description: The comment was deleted
+ *          404:
+ *              description: Comment no encontrada
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al eliminar un comment
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para eliminar un comentario por ID

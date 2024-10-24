@@ -65,6 +65,13 @@ const CalendarController = require('../controllers/CalendarController');
  *                          type: array
  *                          items: 
  *                              $ref: '#components/schemas/Calendar'
+ *          500:
+ *              description: Error interno al obtener los calendars
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener todos los calendarios
@@ -86,6 +93,13 @@ router.get('/', CalendarController.getCalendars);
  *      responses:
  *          200:
  *              description: new calendar created
+ *          500:
+ *              description: Error interno al crear un calendar
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para crear un nuevo calendario
@@ -112,6 +126,20 @@ router.post('/', CalendarController.createCalendar);
  *                      schema:
  *                          type: object
  *                          $ref: '#components/schemas/Calendar'
+ *          404:
+ *              description: Calendar no encontrada
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al obtener un calendar
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener un calendario por su ID
@@ -140,6 +168,20 @@ router.get('/:id', CalendarController.getCalendarById);
  *      responses:
  *          200:
  *              description: The calendar was updated
+ *          404:
+ *              description: Calendar no encontrada
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al actualizar un calendar
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para actualizar un calendario por ID
@@ -161,6 +203,20 @@ router.put('/:id', CalendarController.updateCalendar);
  *      responses:
  *          200:
  *              description: The calendar was deleted
+ *          404:
+ *              description: Calendar no encontrada
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al eliminar un calendar
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para eliminar un calendario por ID

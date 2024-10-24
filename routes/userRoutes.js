@@ -51,6 +51,24 @@ const UserController = require('../controllers/UserController');
  *              email: Juan@gmail.com
  *              password: pablito123
  *              idRole: 1
+ *      Message:
+ *          type: object
+ *          properties:
+ *              message:
+ *                  type: string
+ *                  description: Mensaje del servidor
+ *          example:
+ *              message: ... No encontrad@
+ *      MessageError:
+ *          type: object
+ *          properties:
+ *              message:
+ *                  type: string
+ *                  description: Mensaje del servidor
+ *              error:
+ *                  type: string
+ *                  description: Mensaje de error del servidor
+ *      
  */
 
 /**
@@ -60,7 +78,7 @@ const UserController = require('../controllers/UserController');
  *      summary: return all users
  *      tags: [User]
  *      responses:
- *          200:
+ *          201:
  *              description: all users
  *              content:
  *                  application/json:
@@ -68,6 +86,13 @@ const UserController = require('../controllers/UserController');
  *                          type: array
  *                          items: 
  *                              $ref: '#components/schemas/User'
+ *          500:
+ *              description: Error interno al obtener usuarios
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener todos los usuarios
@@ -89,6 +114,13 @@ router.get('/', UserController.getUsers);
  *      responses:
  *          200:
  *              description: new user created
+ *          500:
+ *              description: Error interno al crear un usuario
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para crear un nuevo usuario
@@ -115,6 +147,20 @@ router.post('/', UserController.createUser);
  *                      schema:
  *                          type: object
  *                          $ref: '#components/schemas/User'
+ *          404: 
+ *              description: Usuario no encontrado.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al obtener un usuario.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener un usuario por su ID
@@ -143,6 +189,20 @@ router.get('/:id', UserController.getUserById);
  *      responses:
  *          200:
  *              description: The user was updated
+ *          404: 
+ *              description: Usuario no encontrado.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al actualizar el usuario.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para actualizar un usuario por su ID
@@ -164,6 +224,20 @@ router.put('/:id', UserController.updateUser);
  *      responses:
  *          200:
  *              description: The user was deleted
+ *          404:
+ *              description: Usuario no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al eliminar usuario
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para eliminar un usuario por su ID
@@ -209,10 +283,27 @@ router.delete('/:id', UserController.deleteUser);
  *                   token:
  *                     type: string
  *                     example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
- *         '401':
- *           description: "Credenciales incorrectas"
+ *         '404':
+ *           description: "No existe un Usuario con este email"
+ *           content:
+ *               application/json:
+ *                   schema:
+ *                       type: object
+ *                       $ref: '#components/schemas/Message'
+ *         '400':
+ *           description: "Contraseña incorrecta"
+ *           content:
+ *               application/json:
+ *                   schema:
+ *                       type: object
+ *                       $ref: '#components/schemas/Message'
  *         '500':
- *           description: "Error interno del servidor"
+ *           description: "Error interno del servidor al inciar sesión"
+ *           content:
+ *               application/json:
+ *                   schema:
+ *                       type: object
+ *                       $ref: '#components/schemas/MessageError'
  *       security: []
  */
 

@@ -116,11 +116,7 @@ exports.loginUser = async (req, res) => {
       }]
     });
 
-    // Debugging: Log email and found user
-    console.log('Email:', req.body.email);
-    console.log('User found:', user);
-
-    if (!user) return res.status(400).send('Email o contraseña incorrectos.');
+    if (!user) return res.status(404).send('No existe un usuario con este email');
 
     // Verificar la contraseña
     const validPass = await bcrypt.compare(req.body.password, user.password);
@@ -128,7 +124,7 @@ exports.loginUser = async (req, res) => {
     // Debugging: Log valid password result
     console.log('Password valid:', validPass);
 
-    if (!validPass) return res.status(400).send('Email o contraseña incorrectos.');
+    if (!validPass) return res.status(400).send('Contraseña incorrecta.');
 
     // Crear y asignar un token JWT
     const token = jwt.sign({ id: user.id, role: user.Role.name }, process.env.JWT_SECRET);

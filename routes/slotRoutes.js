@@ -55,6 +55,13 @@ const SlotController = require('../controllers/SlotController');
  *                          type: array
  *                          items: 
  *                              $ref: '#components/schemas/Slot'
+ *          500:
+ *              description: Error interno al obetner los slots
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener todos los slots
@@ -74,8 +81,15 @@ router.get('/', SlotController.getSlots);
  *                      type: object
  *                      $ref: '#/components/schemas/Slot'
  *      responses:
- *          200:
+ *          201:
  *              description: new slot created
+ *          500:
+ *              description: Error interno al crear el slot
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para crear un nuevo slot
@@ -102,6 +116,20 @@ router.post('/', SlotController.createSlot);
  *                      schema:
  *                          type: object
  *                          $ref: '#components/schemas/Slot'
+ *          404:
+ *              description: Slot no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al obtener el slot
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener un slot por su ID
@@ -130,6 +158,20 @@ router.get('/:id', SlotController.getSlotById);
  *      responses:
  *          200:
  *              description: The slot was updated
+ *          404:
+ *              description: Slot no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al actualizar el slot
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para actualizar un slot por su ID
@@ -151,6 +193,20 @@ router.put('/:id', SlotController.updateSlot);
  *      responses:
  *          200:
  *              description: The slot was deleted
+ *          404:
+ *              description: Slot no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al eliminar el slot
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para eliminar un slot por su ID

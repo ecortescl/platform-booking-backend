@@ -40,6 +40,13 @@ const ServiceController = require('../controllers/ServiceController');
  *                          type: array
  *                          items: 
  *                              $ref: '#components/schemas/Service'
+ *          500:
+ *              description: Error interno al obtener los services
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener todos los servicios
@@ -59,8 +66,15 @@ router.get('/', ServiceController.getServices);
  *                      type: object
  *                      $ref: '#/components/schemas/Service'
  *      responses:
- *          200:
+ *          201:
  *              description: new service created
+ *          500:
+ *              description: Error interno al crear un service
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para crear un nuevo servicio
@@ -87,6 +101,20 @@ router.post('/', ServiceController.createService);
  *                      schema:
  *                          type: object
  *                          $ref: '#components/schemas/Service'
+ *          404:
+ *              description: Service no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al obtener el service
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para obtener un servicio por su ID
@@ -115,6 +143,20 @@ router.get('/:id', ServiceController.getServiceById);
  *      responses:
  *          200:
  *              description: The service was updated
+ *          404:
+ *              description: Service no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al actualizar el service
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para actualizar un servicio por su ID
@@ -136,6 +178,20 @@ router.put('/:id', ServiceController.updateService);
  *      responses:
  *          200:
  *              description: The service was deleted
+ *          404:
+ *              description: Service no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al eliminar el service
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 
 // Ruta para eliminar un servicio por su ID
