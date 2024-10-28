@@ -1,14 +1,30 @@
 const { User, Role, Review, Calendar, Appointment, Comment, ServicesUser } = require('../models'); // Importa todos los modelos necesarios
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
 
 // Crear un nuevo usuario
 exports.createUser = async (req, res) => {
   try {
-    // // Extrae los datos del cuerpo de la solicitud
-    // const { run, names, surnames, email, phone, password, location, specialty, registered, idRole } = req.body;
+    // Extrae los datos del cuerpo de la solicitud
+    const { run, names, surnames, email, phone, password, location, specialty, registered, idRole } = req.body;
 
+    // Hash  password antes de guardarla
+    const saltRounds = 10; // Number of rounds  hashing
+    const hashedPassword = await bcrypt.hash(password, saltRounds); // Hash  password
 
-    // Crear el usuario
-    const newUser = await User.create(req.body);
+    // Crear el usuario con el password hasheado
+    const newUser = await User.create({
+      run,
+      names,
+      surnames,
+      email,
+      phone,
+      password: hashedPassword, // Usar la contraseña hash
+      location,
+      specialty,
+      registered,
+      idRole
+    });
 
     // Respuesta exitosa
     res.status(201).json({
@@ -25,11 +41,7 @@ exports.createUser = async (req, res) => {
 // Obtener todos los usuarios
 exports.getUsers = async (req, res) => {
   try {
-    const users = await User.findAll({
-      include: [
-        { model: Role, attributes: ['name'] }  
-      ]
-    });
+    const users = await User.findAll();
     res.status(200).json({ users });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener usuarios', error: err.message });
