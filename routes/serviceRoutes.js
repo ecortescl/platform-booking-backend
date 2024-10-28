@@ -73,8 +73,15 @@ router.get('/', ServiceController.getServices);
  *            schema:
  *              type: string
  *      responses:
- *          200:
- *              description: New service created
+ *          201:
+ *              description: new service created
+ *          500:
+ *              description: Error interno al crear un service
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
  */
 // Ruta para crear un nuevo servicio
 router.post('/', ServiceController.createService);
