@@ -14,15 +14,18 @@
     "chai": "^4.5.0",
     "chai-http": "^4.4.0",
     "cors": "^2.8.5",
+    "csurf": "^1.10.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
+    "express-validator": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
     "mocha": "^10.7.3",
     "mysql2": "^3.11.3",
     "sequelize": "^6.37.4",
     "sequelize-cli": "^6.6.2",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "xss-clean": "^0.1.4"
   },
   "devDependencies": {
     "@types/node": "^22.7.4"

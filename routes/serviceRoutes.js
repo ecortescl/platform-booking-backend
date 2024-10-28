@@ -56,7 +56,7 @@ router.get('/', ServiceController.getServices);
  * @swagger
  * /api/services:
  *  post:
- *      summary: create a new service
+ *      summary: Create a new service
  *      tags: [Service]
  *      requestBody:
  *          required: true
@@ -65,6 +65,13 @@ router.get('/', ServiceController.getServices);
  *                  schema:
  *                      type: object
  *                      $ref: '#/components/schemas/Service'
+ *      parameters:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
+ *              type: string
  *      responses:
  *          201:
  *              description: new service created
@@ -76,7 +83,6 @@ router.get('/', ServiceController.getServices);
  *                          type: object
  *                          $ref: '#components/schemas/MessageError'
  */
-
 // Ruta para crear un nuevo servicio
 router.post('/', ServiceController.createService);
 
