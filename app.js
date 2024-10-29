@@ -5,7 +5,6 @@ const { ALLOWED_HOSTS } = require("./config");
 const xss = require("xss-clean");
 const csrf = require("csurf");
 const cookieParser = require("cookie-parser");
-const helmet = require("helmet");
 
 require("dotenv").config(); // Cargar las variables de entorno
 
