@@ -49,7 +49,7 @@ Sigue estos pasos para ejecutar la aplicación:
 
 ## Acceso a la Aplicación
 
-Una vez que la aplicación esté corriendo, puedes acceder a ella a través de tu navegador en `http://localhost:3000` 
+Una vez que la aplicación esté corriendo, puedes acceder a ella a través de tu navegador en `http://localhost:4000` 
 
 ## Notas Adicionales
 
