@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node test.js",
     "dev": "node --watch index.js",
-    "start": "node index.js"
+    "start": "npm run migrate && node server.js",
+    "migrate": "sequelize db:migrate"
   },
   "author": "",
   "license": "ISC",
