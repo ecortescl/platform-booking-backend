@@ -28,9 +28,6 @@ const authRoutes = require("./routes/authRoutes");
 // Use JSON Middleware
 app.use(express.json());
 
-// Helmet - Seguridad adicional
-app.use(helmet()); // Esto ayuda a proteger la aplicación de vulnerabilidades comunes estableciendo encabezados HTTP seguros
-
 // xss-clean - Sanitizar datos de entrada
 app.use(xss());
 
