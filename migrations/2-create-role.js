@@ -12,7 +12,7 @@ module.exports = {
       roleId: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Role", // Debe coincidir con el nombre de la tabla creada en `createTable('Roles', {...})`
+          model: "Roles", // Nombre correcto de la tabla
           key: "id",
         },
         onUpdate: "CASCADE",

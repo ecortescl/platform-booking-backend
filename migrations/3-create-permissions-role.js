@@ -13,17 +13,21 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: "Role",
+          model: "Roles", // Nombre correcto de la tabla
           key: "id",
         },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       idPermission: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: "permissions",
+          model: "Permissions", // Nombre correcto de la tabla
           key: "id",
         },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
     });
   },
