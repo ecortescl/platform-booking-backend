@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
-const { sequelize } = require('../models');
+const { sequelize } = require("../models");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Calendars', {
+    await queryInterface.createTable("Calendars", {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -40,13 +40,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'users',
-          key: 'id'
-        }
-      }
+          model: "Users",
+          key: "id",
+        },
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Calendars');
-  }
+    await queryInterface.dropTable("Calendars");
+  },
 };
