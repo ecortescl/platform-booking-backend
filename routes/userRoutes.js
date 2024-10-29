@@ -42,11 +42,13 @@ const UserController = require('../controllers/UserController');
  *                  type: integer
  *                  description: The role id of user
  *          required:
+ *              - run
  *              - names
  *              - email
  *              - password
  *              - idRole
  *          example:
+ *              run: 1111111-1
  *              names: Juan Pablo
  *              email: Juan@gmail.com
  *              password: pablito123
