@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
-const { sequelize } = require('../models');
-const role = require('../models/role');
+const { sequelize } = require("../models");
+const role = require("../models/role");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable("Users", {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -14,46 +14,46 @@ module.exports = {
         primaryKey: true,
       },
       run: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       names: {
         type: Sequelize.STRING,
         allowNull: false,
       },
       surnames: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
       },
       phone: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       password: {
         type: Sequelize.STRING,
         allowNull: false,
       },
       location: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       specialty: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       registered: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       idRole: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'roles',
-          key: 'id'
-        }
-      }
+          model: "Roles",
+          key: "id",
+        },
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Users');
-  }
+    await queryInterface.dropTable("Users");
+  },
 };
