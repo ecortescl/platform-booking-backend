@@ -1,6 +1,15 @@
-const express = require("express")
+// app.js
+const express = require("express");
 const cors = require("cors");
 const { ALLOWED_HOSTS } = require("./config");
+const xss = require("xss-clean");
+const csrf = require("csurf");
+const cookieParser = require("cookie-parser");
+const helmet = require("helmet");
+
+require("dotenv").config(); // Cargar las variables de entorno
+
+const app = express();
 
 // Importar las rutas
 const appointmentRoutes = require("./routes/appointmentRoutes");
@@ -16,54 +25,63 @@ const slotRoutes = require("./routes/slotRoutes");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 
-const xss = require("xss-clean");
-const csrf = require('csurf');
-const csrfProtection = csrf({ cookie: true });
-const cookieParser = require('cookie-parser');
+// Use JSON Middleware
+app.use(express.json());
 
-const app = express();
+// Helmet - Seguridad adicional
+app.use(helmet()); // Esto ayuda a proteger la aplicación de vulnerabilidades comunes estableciendo encabezados HTTP seguros
 
-app.use(express.json())
+// xss-clean - Sanitizar datos de entrada
+app.use(xss());
 
-// Use xss-clean middleware to sanitize incoming data
-app.use(xss()); 
-
-// Use CSRF
+// Cookie Parser - Necesario para CSRF
 app.use(cookieParser());
-app.use(csrfProtection);
 
-// Use CORS
-app.use(cors({
-    origin: ALLOWED_HOSTS,
+// CORS
+app.use(
+  cors({
+    origin: process.env.ALLOWED_HOSTS
+      ? process.env.ALLOWED_HOSTS.split(",")
+      : ["http://localhost:4000"],
     credentials: true,
-}))
+  })
+);
 
-
-//Swagger
-const swaggerUI = require('swagger-ui-express');
-const swaggerJsDoc = require('swagger-jsdoc');
-const path = require('path');
-const { clear } = require("console");
-
-const swaggerSpec = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'Docs Booking Node API',
-            version: '1.0.0'
-        },
-        servers: [
-            { 
-                url: 'http://localhost:4000'
-            }
-        ]
-    },
-    apis: [`${path.join(__dirname, "./routes/*.js")}`]
-
+// CSRF Protection - Solo habilitado en producción
+if (process.env.NODE_ENV === "production") {
+  app.use(csrf({ cookie: true }));
+  app.use((req, res, next) => {
+    res.cookie("XSRF-TOKEN", req.csrfToken());
+    next();
+  });
 }
 
-app.use("/api/docs", swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)))
+// Swagger (para documentación)
+const swaggerUI = require("swagger-ui-express");
+const swaggerJsDoc = require("swagger-jsdoc");
+const path = require("path");
 
+const swaggerSpec = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Docs Booking Node API",
+      version: "1.0.0",
+    },
+    servers: [
+      {
+        url: process.env.API_URL || "http://localhost:4000",
+      },
+    ],
+  },
+  apis: [`${path.join(__dirname, "./routes/*.js")}`],
+};
+
+app.use(
+  "/api/docs",
+  swaggerUI.serve,
+  swaggerUI.setup(swaggerJsDoc(swaggerSpec))
+);
 
 // Usar las rutas
 app.use("/api/appointments", appointmentRoutes);
