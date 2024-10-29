@@ -8,10 +8,10 @@ exports.createUser = [
   // Validation and sanitization
   body('run').trim().isLength({ min: 1 }).escape(),
   body('names').trim().isLength({ min: 2 }).escape(),
-  body('surnames').trim().isLength({ min: 2 }).escape(),
-  body('email').isEmail().normalizeEmail(),
+  body('surnames').optional().trim().isLength({ min: 2 }).escape(),
+  body('email').isEmail().normalizeEmail().trim(),
   body('phone').optional().trim().escape(),
-  body('password').isLength({ min: 6 }).escape(),
+  body('password').trim().isLength({ min: 6 }).escape(),
   body('location').optional().trim().escape(),
   body('specialty').optional().trim().escape(),
   body('registered').optional().isBoolean(),

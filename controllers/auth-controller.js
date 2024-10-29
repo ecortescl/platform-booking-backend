@@ -1,4 +1,7 @@
 const { body, validationResult } = require('express-validator');
+const { User, Role } = require('../models')
+const bcrypt = require('bcrypt')
+const jwt = require ('jsonwebtoken')
 
 // Método para inciar sesión
 exports.loginUser = [
