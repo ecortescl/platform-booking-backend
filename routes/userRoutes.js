@@ -105,7 +105,7 @@ router.get('/', authenticateToken, UserController.getUsers);
  * @swagger
  * /api/users:
  *  post:
- *      summary: create a new user
+ *      summary: create an new user
  *      tags: [User]
  *      parameters:
  *          - in: header
@@ -141,7 +141,7 @@ router.post('/', authenticateToken, UserController.createUser);
  * @swagger
  * /api/users/{id}:
  *  get:
- *      summary: return a user
+ *      summary: return an user
  *      tags: [User]
  *      parameters:
  *        - in: path
@@ -181,7 +181,7 @@ router.get('/:id', authenticateToken, UserController.getUserById);
  * @swagger
  * /api/users/{id}:
  *  put:
- *      summary: update a user
+ *      summary: update an user
  *      tags: [User]
  *      parameters:
  *          - in: header
@@ -229,7 +229,7 @@ router.put('/:id', authenticateToken, UserController.updateUser);
  * @swagger
  * /api/users/{id}:
  *  delete:
- *      summary: delete a user
+ *      summary: delete an user
  *      tags: [User]
  *      parameters:
  *          - in: header
