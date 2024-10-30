@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const SlotController = require('../controllers/SlotController');
+const { authenticateToken }= require('../middleware/authMiddleware')
 
 /**
  * @swagger  
@@ -65,7 +66,7 @@ const SlotController = require('../controllers/SlotController');
  */
 
 // Ruta para obtener todos los slots
-router.get('/', SlotController.getSlots);
+router.get('/', authenticateToken, SlotController.getSlots);
 
 /**
  * @swagger
@@ -73,6 +74,13 @@ router.get('/', SlotController.getSlots);
  *  post:
  *      summary: create a new slot
  *      tags: [Slot]
+ *      parameters:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
+ *              type: string
  *      requestBody:
  *          required: true
  *          content:
@@ -93,7 +101,7 @@ router.get('/', SlotController.getSlots);
  */
 
 // Ruta para crear un nuevo slot
-router.post('/', SlotController.createSlot);
+router.post('/', authenticateToken, SlotController.createSlot);
 
 /**
  * @swagger
@@ -133,7 +141,7 @@ router.post('/', SlotController.createSlot);
  */
 
 // Ruta para obtener un slot por su ID
-router.get('/:id', SlotController.getSlotById);
+router.get('/:id', authenticateToken, SlotController.getSlotById);
 
 /**
  * @swagger
@@ -142,12 +150,18 @@ router.get('/:id', SlotController.getSlotById);
  *      summary: update a slot
  *      tags: [Slot]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the slot id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the slot id
  *      requestBody:
  *          required: true
  *          content:
@@ -175,7 +189,7 @@ router.get('/:id', SlotController.getSlotById);
  */
 
 // Ruta para actualizar un slot por su ID
-router.put('/:id', SlotController.updateSlot);
+router.put('/:id', authenticateToken, SlotController.updateSlot);
 
 /**
  * @swagger
@@ -184,12 +198,18 @@ router.put('/:id', SlotController.updateSlot);
  *      summary: delete a slot
  *      tags: [Slot]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the slot id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the slot id
  *      responses:
  *          200:
  *              description: The slot was deleted
@@ -210,6 +230,6 @@ router.put('/:id', SlotController.updateSlot);
  */
 
 // Ruta para eliminar un slot por su ID
-router.delete('/:id', SlotController.deleteSlot);
+router.delete('/:id', authenticateToken, SlotController.deleteSlot);
 
 module.exports = router;

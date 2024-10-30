@@ -6,7 +6,7 @@ const { body, validationResult } = require('express-validator');
 // Crear un nuevo usuario
 exports.createUser = [
   // Validation and sanitization
-  body('run').trim().isLength({ min: 1 }).escape(),
+  body('run').optional().trim().isLength({ min: 9 }).escape(),
   body('names').trim().isLength({ min: 2 }).escape(),
   body('surnames').optional().trim().isLength({ min: 2 }).escape(),
   body('email').isEmail().normalizeEmail().trim(),

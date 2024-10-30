@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const AppointmentController = require('../controllers/AppointmentController');
+const { authenticateToken }= require('../middleware/authMiddleware')
 
 /**
  * @swagger  
@@ -70,7 +71,7 @@ const AppointmentController = require('../controllers/AppointmentController');
  */
 
 // Ruta para obtener todas las citas
-router.get('/', AppointmentController.getAppointments);
+router.get('/', authenticateToken, AppointmentController.getAppointments);
 
 /**
  * @swagger
@@ -78,6 +79,13 @@ router.get('/', AppointmentController.getAppointments);
  *  post:
  *      summary: create a new appointment
  *      tags: [Appointment]
+ *      parameters:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
+ *              type: string
  *      requestBody:
  *          required: true
  *          content:
@@ -98,7 +106,7 @@ router.get('/', AppointmentController.getAppointments);
  */
 
 // Ruta para crear una nueva cita
-router.post('/', AppointmentController.createAppointment);
+router.post('/', authenticateToken, AppointmentController.createAppointment);
 
 /**
  * @swagger
@@ -138,7 +146,7 @@ router.post('/', AppointmentController.createAppointment);
  */
 
 // Ruta para obtener una cita por su ID
-router.get('/:id', AppointmentController.getAppointmentById);
+router.get('/:id', authenticateToken, AppointmentController.getAppointmentById);
 
 /**
  * @swagger
@@ -147,12 +155,18 @@ router.get('/:id', AppointmentController.getAppointmentById);
  *      summary: update a appointment
  *      tags: [Appointment]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the appointment id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the appointment id
  *      requestBody:
  *          required: true
  *          content:
@@ -180,7 +194,7 @@ router.get('/:id', AppointmentController.getAppointmentById);
  */
 
 // Ruta para actualizar una cita por ID
-router.put('/:id', AppointmentController.updateAppointment);
+router.put('/:id', authenticateToken, AppointmentController.updateAppointment);
 
 /**
  * @swagger
@@ -189,12 +203,18 @@ router.put('/:id', AppointmentController.updateAppointment);
  *      summary: delete a appointment
  *      tags: [Appointment]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the appointment id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the appointment id
  *      responses:
  *          200:
  *              description: The appointment was deleted
@@ -215,6 +235,6 @@ router.put('/:id', AppointmentController.updateAppointment);
  */
 
 // Ruta para eliminar una cita por ID
-router.delete('/:id', AppointmentController.deleteAppointment);
+router.delete('/:id', authenticateToken, AppointmentController.deleteAppointment);
 
 module.exports = router;

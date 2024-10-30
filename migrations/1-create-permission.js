@@ -12,17 +12,7 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
         allowNull: false, // Campo obligatorio
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("NOW"), // Valor por defecto
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("NOW"), // Valor por defecto
-      },
+      }
     });
   },
   async down(queryInterface, Sequelize) {

@@ -46,7 +46,8 @@ app.use(
 // CSRF Protection - Solo habilitado en producción
 if (process.env.NODE_ENV === "production") {
   app.use(csrf({ cookie: true }));
-  app.use((req, res, next) => {
+  app.use((err, req, res, next) => {
+    if(err.code === 'EBADCSRFTOKEN') return res.status(403).json({message: 'Token CSRF inválido'});
     res.cookie("XSRF-TOKEN", req.csrfToken());
     next();
   });

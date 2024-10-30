@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const ServicesUserController = require('../controllers/ServiceuserController');
+const { authenticateToken }= require('../middleware/authMiddleware')
 
 /**
  * @swagger  
@@ -50,7 +51,7 @@ const ServicesUserController = require('../controllers/ServiceuserController');
  */
 
 // Ruta para obtener todos los servicios de usuarios
-router.get('/', ServicesUserController.getServicesUsers);
+router.get('/', authenticateToken, ServicesUserController.getServicesUsers);
 
 /**
  * @swagger
@@ -58,6 +59,13 @@ router.get('/', ServicesUserController.getServicesUsers);
  *  post:
  *      summary: create a new ServiceUser
  *      tags: [ServiceUser]
+ *      parameters:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
+ *              type: string
  *      requestBody:
  *          required: true
  *          content:
@@ -78,7 +86,7 @@ router.get('/', ServicesUserController.getServicesUsers);
  */
 
 // Ruta para crear un nuevo servicio para un usuario
-router.post('/', ServicesUserController.createServicesUser);
+router.post('/', authenticateToken, ServicesUserController.createServicesUser);
 
 /**
  * @swagger
@@ -118,7 +126,7 @@ router.post('/', ServicesUserController.createServicesUser);
  */
 
 // Ruta para obtener un servicio de usuario por su ID
-router.get('/:id', ServicesUserController.getServicesUserById);
+router.get('/:id', authenticateToken, ServicesUserController.getServicesUserById);
 
 /**
  * @swagger
@@ -127,12 +135,18 @@ router.get('/:id', ServicesUserController.getServicesUserById);
  *      summary: update a ServiceUser
  *      tags: [ServiceUser]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the ServiceUser id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the ServiceUser id
  *      requestBody:
  *          required: true
  *          content:
@@ -160,7 +174,7 @@ router.get('/:id', ServicesUserController.getServicesUserById);
  */
 
 // Ruta para actualizar un servicio de usuario por su ID
-router.put('/:id', ServicesUserController.updateServicesUser);
+router.put('/:id', authenticateToken, ServicesUserController.updateServicesUser);
 
 /**
  * @swagger
@@ -169,12 +183,18 @@ router.put('/:id', ServicesUserController.updateServicesUser);
  *      summary: delete a ServiceUser
  *      tags: [ServiceUser]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the ServiceUser id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the ServiceUser id
  *      responses:
  *          200:
  *              description: The ServiceUser was deleted
@@ -195,6 +215,6 @@ router.put('/:id', ServicesUserController.updateServicesUser);
  */
 
 // Ruta para eliminar un servicio de usuario por su ID
-router.delete('/:id', ServicesUserController.deleteServicesUser);
+router.delete('/:id', authenticateToken, ServicesUserController.deleteServicesUser);
 
 module.exports = router;

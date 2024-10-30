@@ -18,6 +18,13 @@ const AuthController = require('../controllers/auth-controller')
  *       tags: [Auth]
  *       summary: "Autenticación de usuario"
  *       operationId: "loginUser"
+ *       parameters:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
+ *              type: string
  *       requestBody:
  *         required: true
  *         content:
@@ -27,10 +34,10 @@ const AuthController = require('../controllers/auth-controller')
  *               properties:
  *                 email:
  *                   type: string
- *                   example: "test@test.com"
+ *                   example: "admin@test.cl"
  *                 password:
  *                   type: string
- *                   example: "contraseñaSegura"
+ *                   example: "admin123"
  *       responses:
  *         '200':
  *           description: "Login exitoso"
