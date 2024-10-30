@@ -61,7 +61,7 @@ const { authenticateToken }= require('../middleware/authMiddleware')
  *                  type: string
  *                  description: Mensaje del servidor
  *          example:
- *              message: ... No encontrad@
+ *              message: Mensaje de Error...
  *      MessageError:
  *          type: object
  *          properties:
