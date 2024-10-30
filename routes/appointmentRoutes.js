@@ -112,7 +112,7 @@ router.post('/', authenticateToken, AppointmentController.createAppointment);
  * @swagger
  * /api/appointments/{id}:
  *  get:
- *      summary: return a appointment
+ *      summary: return an appointment
  *      tags: [Appointment]
  *      parameters:
  *        - in: path
@@ -152,7 +152,7 @@ router.get('/:id', authenticateToken, AppointmentController.getAppointmentById);
  * @swagger
  * /api/appointments/{id}:
  *  put:
- *      summary: update a appointment
+ *      summary: update an appointment
  *      tags: [Appointment]
  *      parameters:
  *          - in: header
@@ -200,7 +200,7 @@ router.put('/:id', authenticateToken, AppointmentController.updateAppointment);
  * @swagger
  * /api/appointments/{id}:
  *  delete:
- *      summary: delete a appointment
+ *      summary: delete an appointment
  *      tags: [Appointment]
  *      parameters:
  *          - in: header
