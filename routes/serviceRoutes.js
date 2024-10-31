@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const ServiceController = require('../controllers/ServiceController');
+const { authenticateToken }= require('../middleware/authMiddleware')
 
 /**
  * @swagger  
@@ -50,7 +51,7 @@ const ServiceController = require('../controllers/ServiceController');
  */
 
 // Ruta para obtener todos los servicios
-router.get('/', ServiceController.getServices);
+router.get('/', authenticateToken, ServiceController.getServices);
 
 /**
  * @swagger
@@ -84,7 +85,7 @@ router.get('/', ServiceController.getServices);
  *                          $ref: '#components/schemas/MessageError'
  */
 // Ruta para crear un nuevo servicio
-router.post('/', ServiceController.createService);
+router.post('/', authenticateToken, ServiceController.createService);
 
 /**
  * @swagger
@@ -124,7 +125,7 @@ router.post('/', ServiceController.createService);
  */
 
 // Ruta para obtener un servicio por su ID
-router.get('/:id', ServiceController.getServiceById);
+router.get('/:id', authenticateToken, ServiceController.getServiceById);
 
 /**
  * @swagger
@@ -133,12 +134,18 @@ router.get('/:id', ServiceController.getServiceById);
  *      summary: update a service
  *      tags: [Service]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the service id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the service id
  *      requestBody:
  *          required: true
  *          content:
@@ -166,7 +173,7 @@ router.get('/:id', ServiceController.getServiceById);
  */
 
 // Ruta para actualizar un servicio por su ID
-router.put('/:id', ServiceController.updateService);
+router.put('/:id', authenticateToken, ServiceController.updateService);
 
 /**
  * @swagger
@@ -175,12 +182,18 @@ router.put('/:id', ServiceController.updateService);
  *      summary: delete a service
  *      tags: [Service]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the service id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the service id
  *      responses:
  *          200:
  *              description: The service was deleted
@@ -201,6 +214,6 @@ router.put('/:id', ServiceController.updateService);
  */
 
 // Ruta para eliminar un servicio por su ID
-router.delete('/:id', ServiceController.deleteService);
+router.delete('/:id', authenticateToken, ServiceController.deleteService);
 
 module.exports = router;

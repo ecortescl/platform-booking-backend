@@ -30,20 +30,22 @@ exports.loginUser = [
         ],
       });
 
-      if (!user) return res.status(400).send("Email o contraseña incorrectos.");
+      if (!user) return res.status(400).json({message: "No existe un Usuario con este email."});
 
       const validPass = await bcrypt.compare(req.body.password, user.password);
 
       if (!validPass)
-        return res.status(400).send("Email o contraseña incorrectos.");
+        return res.status(400).json({message: "Contraseña incorrecta."});
 
       const token = jwt.sign(
         { id: user.id, role: user.Role.name },
         process.env.JWT_SECRET
       );
-      res
-        .header("Authorization", `Bearer ${token}`)
-        .send("Inicio de sesión exitoso.");
+
+      res.header("Authorization", `Bearer ${token}`).json({
+        message: "Inicio de sesión exitoso.",
+        token: token
+      });
     } catch (err) {
       console.error(err);
       res

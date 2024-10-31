@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const PermissionController = require('../controllers/PermissionController');
+const { authenticateToken }= require('../middleware/authMiddleware')
 
 /**
  * @swagger  
@@ -45,7 +46,7 @@ const PermissionController = require('../controllers/PermissionController');
  */
 
 // Ruta para obtener todos los permisos
-router.get('/', PermissionController.getPermissions);
+router.get('/', authenticateToken, PermissionController.getPermissions);
 
 /**
  * @swagger
@@ -53,6 +54,13 @@ router.get('/', PermissionController.getPermissions);
  *  post:
  *      summary: create a new permission
  *      tags: [Permission]
+ *      parameters:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
+ *              type: string
  *      requestBody:
  *          required: true
  *          content:
@@ -73,7 +81,7 @@ router.get('/', PermissionController.getPermissions);
  */
 
 // Ruta para crear un nuevo permiso
-router.post('/', PermissionController.createPermission);
+router.post('/', authenticateToken, PermissionController.createPermission);
 
 /**
  * @swagger
@@ -113,7 +121,7 @@ router.post('/', PermissionController.createPermission);
  */
 
 // Ruta para obtener un permiso por su ID
-router.get('/:id', PermissionController.getPermissionById);
+router.get('/:id', authenticateToken, PermissionController.getPermissionById);
 
 /**
  * @swagger
@@ -122,12 +130,18 @@ router.get('/:id', PermissionController.getPermissionById);
  *      summary: update a permission
  *      tags: [Permission]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the permission id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the permission id
  *      requestBody:
  *          required: true
  *          content:
@@ -155,7 +169,7 @@ router.get('/:id', PermissionController.getPermissionById);
  */
 
 // Ruta para actualizar un permiso por ID
-router.put('/:id', PermissionController.updatePermission);
+router.put('/:id', authenticateToken, PermissionController.updatePermission);
 
 /**
  * @swagger
@@ -164,12 +178,18 @@ router.put('/:id', PermissionController.updatePermission);
  *      summary: delete a permission
  *      tags: [Permission]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the permission id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the permission id
  *      responses:
  *          200:
  *              description: The permission was deleted
@@ -190,6 +210,6 @@ router.put('/:id', PermissionController.updatePermission);
  */
 
 // Ruta para eliminar un permiso por ID
-router.delete('/:id', PermissionController.deletePermission);
+router.delete('/:id', authenticateToken, PermissionController.deletePermission);
 
 module.exports = router;

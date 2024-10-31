@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const ReviewController = require('../controllers/ReviewController');
+const { authenticateToken }= require('../middleware/authMiddleware')
 
 /**
  * @swagger  
@@ -60,7 +61,7 @@ const ReviewController = require('../controllers/ReviewController');
  */
 
 // Ruta para obtener todas las reseñas
-router.get('/', ReviewController.getReviews);
+router.get('/', authenticateToken, ReviewController.getReviews);
 
 /**
  * @swagger
@@ -68,6 +69,13 @@ router.get('/', ReviewController.getReviews);
  *  post:
  *      summary: create a new review
  *      tags: [Review]
+ *      parameters:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
+ *              type: string
  *      requestBody:
  *          required: true
  *          content:
@@ -88,7 +96,7 @@ router.get('/', ReviewController.getReviews);
  */
 
 // Ruta para crear una nueva reseña
-router.post('/', ReviewController.createReview);
+router.post('/', authenticateToken, ReviewController.createReview);
 
 /**
  * @swagger
@@ -128,7 +136,7 @@ router.post('/', ReviewController.createReview);
  */
 
 // Ruta para obtener una reseña por su ID
-router.get('/:id', ReviewController.getReviewById);
+router.get('/:id', authenticateToken, ReviewController.getReviewById);
 
 /**
  * @swagger
@@ -137,12 +145,18 @@ router.get('/:id', ReviewController.getReviewById);
  *      summary: update a review
  *      tags: [Review]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the review id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the review id
  *      requestBody:
  *          required: true
  *          content:
@@ -170,7 +184,7 @@ router.get('/:id', ReviewController.getReviewById);
  */
 
 // Ruta para actualizar una reseña por su ID
-router.put('/:id', ReviewController.updateReview);
+router.put('/:id', authenticateToken, ReviewController.updateReview);
 
 /**
  * @swagger
@@ -179,12 +193,18 @@ router.put('/:id', ReviewController.updateReview);
  *      summary: delete a review
  *      tags: [Review]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the review id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the review id
  *      responses:
  *          200:
  *              description: The review was deleted
@@ -205,6 +225,6 @@ router.put('/:id', ReviewController.updateReview);
  */
 
 // Ruta para eliminar una reseña por su ID
-router.delete('/:id', ReviewController.deleteReview);
+router.delete('/:id', authenticateToken, ReviewController.deleteReview);
 
 module.exports = router;

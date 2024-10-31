@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const CalendarController = require('../controllers/CalendarController');
+const { authenticateToken }= require('../middleware/authMiddleware')
 
 /**
  * @swagger  
@@ -75,7 +76,7 @@ const CalendarController = require('../controllers/CalendarController');
  */
 
 // Ruta para obtener todos los calendarios
-router.get('/', CalendarController.getCalendars);
+router.get('/', authenticateToken, CalendarController.getCalendars);
 
 /**
  * @swagger
@@ -83,6 +84,13 @@ router.get('/', CalendarController.getCalendars);
  *  post:
  *      summary: create a new calendar
  *      tags: [Calendar]
+ *      parameters:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
+ *              type: string
  *      requestBody:
  *          required: true
  *          content:
@@ -103,7 +111,7 @@ router.get('/', CalendarController.getCalendars);
  */
 
 // Ruta para crear un nuevo calendario
-router.post('/', CalendarController.createCalendar);
+router.post('/', authenticateToken, CalendarController.createCalendar);
 
 /**
  * @swagger
@@ -143,7 +151,7 @@ router.post('/', CalendarController.createCalendar);
  */
 
 // Ruta para obtener un calendario por su ID
-router.get('/:id', CalendarController.getCalendarById);
+router.get('/:id', authenticateToken, CalendarController.getCalendarById);
 
 /**
  * @swagger
@@ -152,12 +160,18 @@ router.get('/:id', CalendarController.getCalendarById);
  *      summary: update a calendar
  *      tags: [Calendar]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the calendar id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the calendar id
  *      requestBody:
  *          required: true
  *          content:
@@ -185,7 +199,7 @@ router.get('/:id', CalendarController.getCalendarById);
  */
 
 // Ruta para actualizar un calendario por ID
-router.put('/:id', CalendarController.updateCalendar);
+router.put('/:id', authenticateToken, CalendarController.updateCalendar);
 
 /**
  * @swagger
@@ -194,12 +208,18 @@ router.put('/:id', CalendarController.updateCalendar);
  *      summary: delete a calendar
  *      tags: [Calendar]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the calendar id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the calendar id
  *      responses:
  *          200:
  *              description: The calendar was deleted
@@ -220,6 +240,6 @@ router.put('/:id', CalendarController.updateCalendar);
  */
 
 // Ruta para eliminar un calendario por ID
-router.delete('/:id', CalendarController.deleteCalendar);
+router.delete('/:id', authenticateToken, CalendarController.deleteCalendar);
 
 module.exports = router;

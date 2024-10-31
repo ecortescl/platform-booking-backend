@@ -14,7 +14,7 @@ module.exports = {
         primaryKey: true,
       },
       run: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING
       },
       names: {
         type: Sequelize.STRING,

@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const CommentController = require('../controllers/CommentController');
+const { authenticateToken }= require('../middleware/authMiddleware')
 
 /**
  * @swagger  
@@ -55,7 +56,7 @@ const CommentController = require('../controllers/CommentController');
  */
 
 // Ruta para obtener todos los comentarios
-router.get('/', CommentController.getComments);
+router.get('/', authenticateToken, CommentController.getComments);
 
 /**
  * @swagger
@@ -63,6 +64,13 @@ router.get('/', CommentController.getComments);
  *  post:
  *      summary: create a new comment
  *      tags: [Comment]
+ *      parameters:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
+ *              type: string
  *      requestBody:
  *          required: true
  *          content:
@@ -83,7 +91,7 @@ router.get('/', CommentController.getComments);
  */
 
 // Ruta para crear un nuevo comentario
-router.post('/', CommentController.createComment);
+router.post('/', authenticateToken, CommentController.createComment);
 
 /**
  * @swagger
@@ -123,7 +131,7 @@ router.post('/', CommentController.createComment);
  */
 
 // Ruta para obtener un comentario por su ID
-router.get('/:id', CommentController.getCommentById);
+router.get('/:id', authenticateToken, CommentController.getCommentById);
 
 /**
  * @swagger
@@ -132,12 +140,18 @@ router.get('/:id', CommentController.getCommentById);
  *      summary: update a comment
  *      tags: [Comment]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the comment id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the comment id
  *      requestBody:
  *          required: true
  *          content:
@@ -165,7 +179,7 @@ router.get('/:id', CommentController.getCommentById);
  */
 
 // Ruta para actualizar un comentario por ID
-router.put('/:id', CommentController.updateComment);
+router.put('/:id', authenticateToken, CommentController.updateComment);
 
 /**
  * @swagger
@@ -174,12 +188,18 @@ router.put('/:id', CommentController.updateComment);
  *      summary: delete a comment
  *      tags: [Calendar]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the comment id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the comment id
  *      responses:
  *          200:
  *              description: The comment was deleted
@@ -200,6 +220,6 @@ router.put('/:id', CommentController.updateComment);
  */
 
 // Ruta para eliminar un comentario por ID
-router.delete('/:id', CommentController.deleteComment);
+router.delete('/:id', authenticateToken, CommentController.deleteComment);
 
 module.exports = router;

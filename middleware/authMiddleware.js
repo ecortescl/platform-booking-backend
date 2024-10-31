@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken');
 // Middleware para verificar el JWT
 const authenticateToken = (req, res, next) => {
   // Obtener el token del encabezado Authorization
-  const token = req.header('Authorization')?.split(' ')[1]; 
-  if (!token) return res.status(401).send('Acceso denegado. No hay token.');
+  const token = req.header('Authorization')?.split(' ')[1];
+  if (!token) return res.status(401).json({message: 'Acceso denegado. No hay token.'}); 
 
   try {
     // Verificar el token
@@ -14,7 +14,7 @@ const authenticateToken = (req, res, next) => {
     req.user = verified; 
     next(); // Pasar al siguiente middleware o controlador de ruta
   } catch (err) {
-    res.status(400).send('Token inválido.'); // Manejar el token inválido
+    res.status(400).json({message: 'Token inválido.'}); // Manejar el token inválido
   }
 };
 

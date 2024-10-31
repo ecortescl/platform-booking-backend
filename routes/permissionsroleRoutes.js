@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const PermissionsRoleController = require('../controllers/PermissionRoleController');
+const { authenticateToken }= require('../middleware/authMiddleware')
 
 /**
  * @swagger  
@@ -50,7 +51,7 @@ const PermissionsRoleController = require('../controllers/PermissionRoleControll
  */
 
 // Ruta para obtener todos los permisos de roles
-router.get('/', PermissionsRoleController.getPermissionsRoles);
+router.get('/', authenticateToken, PermissionsRoleController.getPermissionsRoles);
 
 /**
  * @swagger
@@ -58,6 +59,13 @@ router.get('/', PermissionsRoleController.getPermissionsRoles);
  *  post:
  *      summary: create a new PermissionRole
  *      tags: [PermissionRole]
+ *      parameters:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
+ *              type: string
  *      requestBody:
  *          required: true
  *          content:
@@ -78,7 +86,7 @@ router.get('/', PermissionsRoleController.getPermissionsRoles);
  */
 
 // Ruta para crear un nuevo permiso para un rol
-router.post('/', PermissionsRoleController.createPermissionsRole);
+router.post('/', authenticateToken, PermissionsRoleController.createPermissionsRole);
 
 /**
  * @swagger
@@ -118,7 +126,7 @@ router.post('/', PermissionsRoleController.createPermissionsRole);
  */
 
 // Ruta para obtener un permiso de rol por su ID
-router.get('/:id', PermissionsRoleController.getPermissionsRoleById);
+router.get('/:id', authenticateToken, PermissionsRoleController.getPermissionsRoleById);
 
 /**
  * @swagger
@@ -127,12 +135,18 @@ router.get('/:id', PermissionsRoleController.getPermissionsRoleById);
  *      summary: update a PermissionRole
  *      tags: [PermissionRole]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: thePermissionRole id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: thePermissionRole id
  *      requestBody:
  *          required: true
  *          content:
@@ -160,7 +174,7 @@ router.get('/:id', PermissionsRoleController.getPermissionsRoleById);
  */
 
 // Ruta para actualizar un permiso de rol por su ID
-router.put('/:id', PermissionsRoleController.updatePermissionsRole);
+router.put('/:id', authenticateToken, PermissionsRoleController.updatePermissionsRole);
 
 /**
  * @swagger
@@ -169,12 +183,18 @@ router.put('/:id', PermissionsRoleController.updatePermissionsRole);
  *      summary: delete a role permission
  *      tags: [PermissionRole]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the PermissionRole id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the PermissionRole id
  *      responses:
  *          200:
  *              description: The PermissionRole was deleted
@@ -195,6 +215,6 @@ router.put('/:id', PermissionsRoleController.updatePermissionsRole);
  */
 
 // Ruta para eliminar un permiso de rol por su ID
-router.delete('/:id', PermissionsRoleController.deletePermissionsRole);
+router.delete('/:id', authenticateToken, PermissionsRoleController.deletePermissionsRole);
 
 module.exports = router;

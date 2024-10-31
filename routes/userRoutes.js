@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const UserController = require('../controllers/UserController');
+const { authenticateToken }= require('../middleware/authMiddleware')
 
 /**
  * @swagger  
@@ -60,7 +61,7 @@ const UserController = require('../controllers/UserController');
  *                  type: string
  *                  description: Mensaje del servidor
  *          example:
- *              message: ... No encontrad@
+ *              message: Mensaje de Error...
  *      MessageError:
  *          type: object
  *          properties:
@@ -98,14 +99,22 @@ const UserController = require('../controllers/UserController');
  */
 
 // Ruta para obtener todos los usuarios
-router.get('/', UserController.getUsers);
+router.get('/', authenticateToken, UserController.getUsers);
 
 /**
  * @swagger
  * /api/users:
  *  post:
- *      summary: create a new user
+ *      summary: create an new user
  *      tags: [User]
+ *      parameters:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
+ *              type: string
+ * 
  *      requestBody:
  *          required: true
  *          content:
@@ -126,13 +135,13 @@ router.get('/', UserController.getUsers);
  */
 
 // Ruta para crear un nuevo usuario
-router.post('/', UserController.createUser);
+router.post('/', authenticateToken, UserController.createUser);
 
 /**
  * @swagger
  * /api/users/{id}:
  *  get:
- *      summary: return a user
+ *      summary: return an user
  *      tags: [User]
  *      parameters:
  *        - in: path
@@ -166,21 +175,27 @@ router.post('/', UserController.createUser);
  */
 
 // Ruta para obtener un usuario por su ID
-router.get('/:id', UserController.getUserById);
+router.get('/:id', authenticateToken, UserController.getUserById);
 
 /**
  * @swagger
  * /api/users/{id}:
  *  put:
- *      summary: update a user
+ *      summary: update an user
  *      tags: [User]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the user id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the user id
  *      requestBody:
  *          required: true
  *          content:
@@ -208,21 +223,27 @@ router.get('/:id', UserController.getUserById);
  */
 
 // Ruta para actualizar un usuario por su ID
-router.put('/:id', UserController.updateUser);
+router.put('/:id', authenticateToken, UserController.updateUser);
 
 /**
  * @swagger
  * /api/users/{id}:
  *  delete:
- *      summary: delete a user
+ *      summary: delete an user
  *      tags: [User]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the user id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the user id
  *      responses:
  *          200:
  *              description: The user was deleted
@@ -243,6 +264,6 @@ router.put('/:id', UserController.updateUser);
  */
 
 // Ruta para eliminar un usuario por su ID
-router.delete('/:id', UserController.deleteUser);
+router.delete('/:id', authenticateToken, UserController.deleteUser);
 
 module.exports = router;

@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const RoleController = require('../controllers/RoleController');
+const { authenticateToken }= require('../middleware/authMiddleware')
 
 /**
  * @swagger  
@@ -45,7 +46,7 @@ const RoleController = require('../controllers/RoleController');
  */
 
 // Ruta para obtener todos los roles
-router.get('/', RoleController.getRoles);
+router.get('/', authenticateToken, RoleController.getRoles);
 
 /**
  * @swagger
@@ -53,6 +54,13 @@ router.get('/', RoleController.getRoles);
  *  post:
  *      summary: create a new role
  *      tags: [Role]
+ *      parameters:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
+ *              type: string
  *      requestBody:
  *          required: true
  *          content:
@@ -78,7 +86,7 @@ router.get('/', RoleController.getRoles);
  */
 
 // Ruta para crear un nuevo rol
-router.post('/', RoleController.createRole);
+router.post('/', authenticateToken, RoleController.createRole);
 
 /**
  * @swagger
@@ -118,7 +126,7 @@ router.post('/', RoleController.createRole);
  */
 
 // Ruta para obtener un rol por su ID
-router.get('/:id', RoleController.getRoleById);
+router.get('/:id', authenticateToken, RoleController.getRoleById);
 
 /**
  * @swagger
@@ -127,12 +135,18 @@ router.get('/:id', RoleController.getRoleById);
  *      summary: update a role
  *      tags: [Role]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the role id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the role id
  *      requestBody:
  *          required: true
  *          content:
@@ -160,7 +174,7 @@ router.get('/:id', RoleController.getRoleById);
  */
 
 // Ruta para actualizar un rol por su ID
-router.put('/:id', RoleController.updateRole);
+router.put('/:id', authenticateToken, RoleController.updateRole);
 
 /**
  * @swagger
@@ -169,12 +183,18 @@ router.put('/:id', RoleController.updateRole);
  *      summary: delete a role
  *      tags: [Role]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
+ *          - in: header
+ *            name: CSRF-Token
+ *            required: true
+ *            description: CSRF token for protection against cross-site request forgery
+ *            schema:
  *              type: string
- *          required: true
- *          description: the role id
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: string
+ *            required: true
+ *            description: the role id
  *      responses:
  *          200:
  *              description: The role was deleted
@@ -195,6 +215,6 @@ router.put('/:id', RoleController.updateRole);
  */
 
 // Ruta para eliminar un rol por su ID
-router.delete('/:id', RoleController.deleteRole);
+router.delete('/:id', authenticateToken, RoleController.deleteRole);
 
 module.exports = router;
