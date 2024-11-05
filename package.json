@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node test.js",
     "dev": "node --watch index.js",
-    "migrate": "sequelize db:migrate:status && sequelize db:migrate --config config/config.js",
+    "migrate": "npx sequelize db:migrate:status && npx sequelize db:migrate --config config/config.js",
     "seed": "npx sequelize-cli db:seed --seed 20241105165012-for-frontend.js",
     "start": "npm run migrate && npm run seed && node index.js"
   },
