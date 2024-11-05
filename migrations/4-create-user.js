@@ -14,7 +14,8 @@ module.exports = {
         primaryKey: true,
       },
       run: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique:true,
       },
       names: {
         type: Sequelize.STRING,
@@ -26,6 +27,7 @@ module.exports = {
       email: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique:true,
       },
       phone: {
         type: Sequelize.STRING,
