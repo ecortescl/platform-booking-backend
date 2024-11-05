@@ -186,7 +186,7 @@ router.put('/:id', authenticateToken, CommentController.updateComment);
  * /api/comments/{id}:
  *  delete:
  *      summary: delete a comment
- *      tags: [Calendar]
+ *      tags: [Comment]
  *      parameters:
  *          - in: header
  *            name: CSRF-Token
