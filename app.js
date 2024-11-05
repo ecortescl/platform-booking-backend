@@ -37,11 +37,12 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: process.env.ALLOWED_HOSTS
-      ? process.env.ALLOWED_HOSTS.split(",").concat(["https://platform-booking-backend.onrender.com"]) // Agrega Render a la lista de orígenes permitidos
-      : ["http://localhost:4000", "https://platform-booking-backend.onrender.com"], // Si no hay ALLOWED_HOSTS, permite localhost y Render por defecto
+      ? process.env.ALLOWED_HOSTS.split(",")
+      : ["http://localhost:4000"],
     credentials: true,
   })
 );
+
 // CSRF Protection - Solo habilitado en producción
 if (process.env.NODE_ENV === "production") {
   app.use(csrf({ cookie: true }));
