@@ -6,6 +6,8 @@ const bcrypt = require('bcrypt')
 module.exports = {
   async up (queryInterface, Sequelize) {
 
+    if(!process.env.SEED_EXECUTE) return
+
     await queryInterface.bulkInsert('Roles', [
       {
         name: 'admin'

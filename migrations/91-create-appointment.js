@@ -25,6 +25,7 @@ module.exports = {
           model: "Users",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       idUserProfessional: {
         allowNull: false,
@@ -33,6 +34,7 @@ module.exports = {
           model: "Users",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       idSlot: {
         allowNull: false,
@@ -41,6 +43,7 @@ module.exports = {
           model: "Slots",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
     });
   },

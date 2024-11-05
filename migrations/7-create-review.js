@@ -24,6 +24,7 @@ module.exports = {
           model: "Users",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       idUserReceiver: {
         allowNull: false,
@@ -32,6 +33,7 @@ module.exports = {
           model: "Users",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
     });
   },

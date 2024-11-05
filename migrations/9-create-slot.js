@@ -28,6 +28,7 @@ module.exports = {
           model: "Calendars",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
     });
   },

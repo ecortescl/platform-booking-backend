@@ -20,6 +20,7 @@ module.exports = {
           model: "Users",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       idAppointment: {
         allowNull: false,

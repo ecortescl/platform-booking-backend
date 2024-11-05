@@ -6,10 +6,7 @@ const bcrypt = require('bcrypt')
 module.exports = {
   async up (queryInterface, Sequelize) {
 
-    if(!process.env.SEED_EXECUTE) {
-      console.log('NO')
-      return
-    }
+    if(!process.env.SEED_EXECUTE) return
 
     const permissions = await queryInterface.bulkInsert('Permissions', [
       { name: 'edit_profile' },

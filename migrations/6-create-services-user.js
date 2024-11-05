@@ -16,6 +16,7 @@ module.exports = {
           model: "Users",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
       idService: {
         allowNull: false,
@@ -24,6 +25,7 @@ module.exports = {
           model: "Services",
           key: "id",
         },
+        onDelete: "CASCADE",
       },
     });
   },

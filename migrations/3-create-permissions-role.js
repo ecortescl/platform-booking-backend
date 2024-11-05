@@ -16,8 +16,7 @@ module.exports = {
           model: "Roles", // Nombre correcto de la tabla
           key: "id",
         },
-        onUpdate: "CASCADE",
-        onDelete: "SET NULL",
+        onDelete: "CASCADE",
       },
       idPermission: {
         allowNull: false,
@@ -26,8 +25,7 @@ module.exports = {
           model: "Permissions", // Nombre correcto de la tabla
           key: "id",
         },
-        onUpdate: "CASCADE",
-        onDelete: "SET NULL",
+        onDelete: "CASCADE",
       },
     });
   },
