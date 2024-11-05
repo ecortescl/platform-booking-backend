@@ -135,7 +135,7 @@ router.get('/', authenticateToken, UserController.getUsers);
  */
 
 // Ruta para crear un nuevo usuario
-router.post('/', authenticateToken, UserController.createUser);
+router.post('/', UserController.createUser);
 
 /**
  * @swagger
