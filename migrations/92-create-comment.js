@@ -28,6 +28,7 @@ module.exports = {
           model: "Appointments",
           key: "id",
         },
+        onDelete: "CASCADE", 
       },
     });
   },
