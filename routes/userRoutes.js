@@ -51,8 +51,8 @@ const { authenticateToken }= require('../middleware/authMiddleware')
  *          example:
  *              run: 1111111-1
  *              names: Juan Pablo
- *              email: Juan@gmail.com
- *              password: pablito123
+ *              email: admin@test.cl
+ *              password: admin123
  *              idRole: 1
  *      Message:
  *          type: object
