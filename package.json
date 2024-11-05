@@ -7,7 +7,7 @@
     "test": "node test.js",
     "dev": "node --watch index.js",
     "migrate": "sequelize db:migrate:status && sequelize db:migrate --config config/config.js",
-    "start": "npm run migrate && node server.js"
+    "start": "npm run migrate && node index.js"
   },
   "author": "",
   "license": "ISC",

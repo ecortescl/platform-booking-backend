@@ -1,14 +1,7 @@
-const app = require("./app")
-const { PORT } = require("./config")
-require('dotenv').config();
+const app = require("./app");
 
-async function main() {
-    try {
-        app.listen(PORT)
-        console.log("Servidor iniciado.");
-    }catch(error) {
-        console.error(error);
-    }
-}
+const PORT = process.env.PORT || 4000;
 
-main();
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

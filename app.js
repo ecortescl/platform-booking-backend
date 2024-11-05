@@ -70,6 +70,11 @@ const swaggerSpec = {
         url: process.env.API_URL || "http://localhost:4000",
       },
     ],
+    security: [
+      {
+        BearerAuth: [],
+      },
+    ],
   },
   apis: [`${path.join(__dirname, "./routes/*.js")}`],
 };
