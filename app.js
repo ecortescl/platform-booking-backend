@@ -23,6 +23,12 @@ const slotRoutes = require("./routes/slotRoutes");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 
+//Importar módulo WebSocket, http para mensajería interna
+const WebSocket = require('ws')
+const http = require('http')
+//Importar método handleConnection para mensajería interna
+const handleConnection = require("./controllers/chat-ws-controller");
+
 // Use JSON Middleware
 app.use(express.json());
 
@@ -83,6 +89,16 @@ app.use(
   swaggerUI.serve,
   swaggerUI.setup(swaggerJsDoc(swaggerSpec))
 );
+
+//Configuración Mensajería (WEBSOCKET)
+const server = http.createServer();
+const wss = new WebSocket.Server({server});
+
+let rooms = [];
+
+wss.on('connection', (ws) => {
+  handleConnection(ws, rooms);
+});
 
 // Usar las rutas
 app.use("/api/appointments", appointmentRoutes);
