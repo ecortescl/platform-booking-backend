@@ -11,7 +11,7 @@ exports.createAppointment = async (req, res) => {
    const appointmentDetails = await Appointment.findByPk(newAppointment.id, {
     include: [
       { model: User, as: 'client', attributes: ['email', 'phone'] }, // Asume alias 'client' para el cliente
-      { model: Slot, attributes: ['date', 'time'] } // Atributos de fecha y hora del slot
+      { model: Slot, attributes: ['date', 'startTime'] } // Atributos de fecha y hora del slot
     ]
   });
 
