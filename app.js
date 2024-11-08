@@ -32,15 +32,17 @@ app.use(xss());
 // Cookie Parser - Necesario para CSRF
 app.use(cookieParser());
 
+
 // CORS
 app.use(
   cors({
     origin: process.env.ALLOWED_HOSTS
       ? process.env.ALLOWED_HOSTS.split(",")
-      : ["http://localhost:4000"],
+      : ["http://localhost:4000", "http://localhost:5173"], // Se agrega localhost:5173
     credentials: true,
   })
 );
+
 
 // CSRF Protection - Solo habilitado en producción
 if (process.env.NODE_ENV === "production" || true) {
