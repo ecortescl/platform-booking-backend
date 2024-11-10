@@ -94,10 +94,10 @@ app.use(
 const server = http.createServer();
 const wss = new WebSocket.Server({server});
 
-let rooms = [];
+const sockets = new Map();
 
 wss.on('connection', (ws) => {
-  handleConnection(ws, rooms);
+  handleConnection(ws, sockets);
 });
 
 // Usar las rutas
