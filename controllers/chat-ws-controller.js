@@ -23,38 +23,38 @@ function handleConnection(ws, sockets) {
 
                 //Se agrupan los mensajes por cada usuario, se estiman los mensajes a eliminar
                 const clients = []
-                let messages = []
-                let prevId = 0
                 let idToDelete = []
-                let _idToDelete = []
                 for (const row of rows) {
-                    if (prevId != row.senderId && prevId != 0) {
+                    const client = clients.find(client => client.id === row.senderId);
 
+                    if (client) {
+                        client.messages.push(row.msg)
+                        idToDelete.push(row.id)
+                    } else {
                         let cli = undefined
                         try {
-                            cli = await User.finOne({
+                            cli = await User.findOne({
                                 attributes: ['names', 'surnames'],
-                                where: { id: prevId }
+                                where: { id: row.senderId }
                             });
 
                             clients.push({
-                                id: prevId,
+                                id: row.senderId,
                                 name: cli.name + ' ' + cli.surnames,
-                                messages: messages
+                                messages: [row.msg]
                             })
 
-                            idToDelete = idToDelete.concat(_idToDelete);
+                            idToDelete.push(row.id)
                         } catch (err) {
-
-                        } finally {
-                            messages = []
-                            _idToDelete = []
+                            console.log(err.message)
+                            ws.send(JSON.stringify({
+                                type: 'error',
+                                message: 'Error al obtener mensajes, intente unirse nuevamente'
+                            }));
+                            idToDelete = []
+                            break;
                         }
                     }
-
-                    messages.push(row.msg)
-                    _idToDelete.push(row.id)
-                    prevId = row.senderId
                 }
 
                 //Se envían los datos al usuario que se une
@@ -62,7 +62,8 @@ function handleConnection(ws, sockets) {
                 try {
                     ws.send(JSON.stringify({
                         type: 'join',
-                        data: clients
+                        message: 'Conexión establecida',
+                        clients: clients
                     }))
                     sendFlag = true
                 } catch (err) { }
@@ -73,7 +74,6 @@ function handleConnection(ws, sockets) {
                         db.run('delete from message where id = ?', [id])
                     })
                 }
-
                 break;
 
             case 'message':
@@ -85,23 +85,20 @@ function handleConnection(ws, sockets) {
                     try {
                         socketMsg.send(JSON.stringify({
                             type: 'message',
-                            data: {
-                                senderId: data.senderId,
-                                receiverId: data.receiverId,
-                                message: data.message
-                            }
+                            senderId: data.senderId,
+                            message: data.message
                         }));
                     } catch (err) {
                         //Sí hay un error de conexión y el socket está cerrado se guarda el mensaje en BBDD
                         if (socketMsg.readyState === WebSocket.CLOSING || socketMsg.readyState === WebSocket.CLOSED) {
-                            const stmt = db.prepare('insert into message (senderId, receiverId, msg) values (?, ?, ?');
+                            const stmt = db.prepare('insert into message (senderId, receiverId, msg) values (?, ?, ?)');
                             stmt.run(data.senderId, data.receiverId, data.message);
                             stmt.finalize();
                         }
                     }
                 } else {
                     //Si el usuario a recibir el mensaje no está conectado, se guarda el mensaje en BBDD
-                    const stmt = db.prepare('insert into message (senderId, receiverId, msg) values (?, ?, ?');
+                    const stmt = db.prepare('insert into message (senderId, receiverId, msg) values (?, ?, ?)');
                     stmt.run(data.senderId, data.receiverId, data.message);
                     stmt.finalize();
                 }
@@ -110,9 +107,11 @@ function handleConnection(ws, sockets) {
 
             case 'disconnect':
                 //Se cierra el socket y se elimina el socket de la lista de desconectados
-                const socketToDis = sokcets.get(data.id);
-                socketToDis.close();
-                sockets.delete(data.id);
+                try {
+                    const socketToDis = sockets.get(data.id);
+                    sockets.delete(data.id);
+                    socketToDis.close();
+                } catch (err) { }
                 break;
         }
     })
