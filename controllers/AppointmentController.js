@@ -27,10 +27,14 @@ exports.createAppointment = async (req, res) => {
       clienteEmail: appointmentDetails.client.email,
       clienteTelefono: appointmentDetails.client.phone,
     };
-
+console.log(detallesCita.clienteEmail)
+console.log(detallesCita.clienteTelefono)
     // Enviar confirmación por correo y SMS
     await enviarCorreoConfirmacion(detallesCita.clienteEmail, detallesCita);
+  // Enviar confirmación por SMS si hay un número de teléfono
+  if (detallesCita.clienteTelefono) {
     await enviarSmsConfirmacion(detallesCita.clienteTelefono, detallesCita);
+  }
 
 
     // Respuesta exitosa

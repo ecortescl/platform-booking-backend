@@ -8,6 +8,8 @@ async function enviarSmsConfirmacion(clienteTelefono, detallesCita) {
     from: process.env.TWILIO_PHONE_NUMBER,
     to: clienteTelefono,
   });
+
+  console.log(clienteTelefono)
 }
 
 async function enviarSmsRecordatorio(clienteTelefono, detallesCita) {

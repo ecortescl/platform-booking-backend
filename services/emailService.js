@@ -2,12 +2,15 @@
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // Cambia según el proveedor que uses (ej. SendGrid)
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
 });
+
 
 async function enviarCorreoConfirmacion(clienteEmail, detallesCita) {
   const mailOptions = {
@@ -16,7 +19,7 @@ async function enviarCorreoConfirmacion(clienteEmail, detallesCita) {
     subject: 'Confirmación de Cita',
     text: `Su cita ha sido confirmada para el ${detallesCita.fecha} a las ${detallesCita.hora}.`,
   };
-
+console.log(mailOptions.to)
   await transporter.sendMail(mailOptions);
 }
 
