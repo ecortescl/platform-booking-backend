@@ -82,3 +82,37 @@ exports.deleteReview = async (req, res) => {
     res.status(500).json({ message: 'Error al eliminar reseña', error: err.message });
   }
 };
+
+// Obtener reseñas por ID de escritor o receptor
+exports.getReviewsByUser = async (req, res) => {
+  try {
+    const { idUser, role } = req.params;
+
+    // Validar que el rol sea válido
+    if (!['writer', 'receiver'].includes(role)) {
+      return res.status(400).json({ message: 'El rol debe ser "writer" o "receiver"' });
+    }
+
+    // Configurar el criterio de búsqueda basado en el rol
+    const whereCondition = role === 'writer' 
+      ? { idUserWriter: idUser } 
+      : { idUserReceiver: idUser };
+
+    // Buscar reseñas con la condición adecuada
+    const reviews = await Review.findAll({
+      where: whereCondition,
+      include: [
+        { model: User, as: 'writer', attributes: ['id'] },
+        { model: User, as: 'receiver', attributes: ['id'] },
+      ]
+    });
+
+    if (reviews.length > 0) {
+      res.status(200).json({ reviews });
+    } else {
+      res.status(404).json({ message: 'No se encontraron reseñas para este usuario' });
+    }
+  } catch (err) {
+    res.status(500).json({ message: 'Error al obtener las reseñas', error: err.message });
+  }
+};
