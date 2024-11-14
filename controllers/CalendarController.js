@@ -3,8 +3,28 @@ const { Calendar, User, Slot } = require('../models'); // Importa todos los mode
 // Crear un nuevo calendario
 exports.createCalendar = async (req, res) => {
   try {
+
+    const { startDate, endDate, startTime, endTime, bookingDuration, idUser } = req.body;
+    
+    const user = await User.findOne({
+      where: { id: idUser },
+      attributes: ['names', 'surnames']
+    })
+
+    const calCount = await Calendar.count({ where: { idUser: idUser }})
+    const numCal = calCount + 1
+    const slug = user.names.concat('-', user.surnames, '-calendar-', numCal).replace(' ', '').toLowerCase()
+
     // Crear el calendario
-    const newCalendar = await Calendar.create(req.body);
+    const newCalendar = await Calendar.create({
+      startDate,
+      endDate,
+      slug,
+      startTime,
+      endTime,
+      bookingDuration,
+      idUser
+    });
 
     // Respuesta exitosa
     res.status(201).json({
@@ -102,3 +122,28 @@ exports.getCalendarsByUserId = async (req, res) => {
   }
 };
 
+//Obtener un calendario por slug
+exports.getCalendarBySlug = async (req, res) => {
+  try {
+    const { slug } = req.params;
+
+    const calendar = await Calendar.findOne({
+      whre: { slug: slug },
+      include: [
+        {
+          model: Slot,
+          where: { state: 'Disponible' }
+        }
+      ]
+    })
+
+    if (calendar) {
+      res.status(200).json({ calendar });
+    } else {
+      res.status(404).json({ message: 'Calendario no encontrado' });
+    }
+
+  }catch {
+    res.status(500).json({ message: 'Error al obtener el calendario', error: err.message });
+  }
+};

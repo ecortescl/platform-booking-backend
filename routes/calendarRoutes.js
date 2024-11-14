@@ -36,7 +36,6 @@ const { authenticateToken }= require('../middleware/authMiddleware')
  *          required:
  *              - startDate
  *              - endDate
- *              - slug
  *              - startTime
  *              - endTime
  *              - bookingDuration
@@ -44,7 +43,6 @@ const { authenticateToken }= require('../middleware/authMiddleware')
  *          example:
  *              startDate: 2024-10-16
  *              endDate: 2024-11-16
- *              slug: http://localhost:4000/linktocalendar
  *              startTime: 09:00
  *              endTime: 18:00
  *              bookingDuration: 30
@@ -283,5 +281,44 @@ router.delete('/:id', authenticateToken, CalendarController.deleteCalendar);
 // Ruta para obtener todos los calendarios de un usuario por su ID
 router.get('/user/:idUser', authenticateToken, CalendarController.getCalendarsByUserId);
 
+/**
+ * @swagger
+ * /api/calendars/{slug}:
+ *  get:
+ *      summary: return a calendar
+ *      tags: [Calendar]
+ *      parameters:
+ *        - in: path
+ *          name: slug
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: the calendar slug
+ *      responses:
+ *          200:
+ *              description: return a calendar
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Calendar'
+ *          404:
+ *              description: Calendar no encontrado
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al obtener un calendar
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
+ */
+
+// Ruta para obtener un calendario por su ID
+router.get('/:slug', authenticateToken, CalendarController.getCalendarBySlug);
 
 module.exports = router;
