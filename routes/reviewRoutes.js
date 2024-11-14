@@ -227,4 +227,59 @@ router.put('/:id', authenticateToken, ReviewController.updateReview);
 // Ruta para eliminar una reseña por su ID
 router.delete('/:id', authenticateToken, ReviewController.deleteReview);
 
+/**
+ * @swagger
+ * /api/reviews/user/{idUser}/{role}:
+ *  get:
+ *      summary: Obtener todas las reseñas de un escritor o receptor
+ *      tags: [Review]
+ *      parameters:
+ *        - in: path
+ *          name: idUser
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: ID del usuario (escritor o receptor)
+ *        - in: path
+ *          name: role
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: Rol del usuario (writer o receiver)
+ *      responses:
+ *          200:
+ *              description: Lista de reseñas del usuario
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items: 
+ *                              $ref: '#components/schemas/Review'
+ *          400:
+ *              description: Rol no válido
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          404:
+ *              description: No se encontraron reseñas para este usuario
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al obtener reseñas
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
+ */
+
+// Ruta para obtener todas las reseñas de un usuario específico, según su rol
+router.get('/user/:idUser/:role', authenticateToken, ReviewController.getReviewsByUser);
+
+
 module.exports = router;

@@ -1,10 +1,41 @@
 const { Appointment, User, Slot, Comment } = require('../models'); // Importa todos los modelos necesarios
-
+const { enviarCorreoConfirmacion, enviarCorreoRecordatorio } = require('../services/emailService');
+const { enviarSmsConfirmacion, enviarSmsRecordatorio } = require('../services/smsService');
 // Crear una nueva cita
 exports.createAppointment = async (req, res) => {
   try {
     // Crear la cita
     const newAppointment = await Appointment.create(req.body);
+
+    // Consultar los datos del cliente y del slot de la cita
+    const appointmentDetails = await Appointment.findByPk(newAppointment.id, {
+      include: [
+        { model: User, as: 'client', attributes: ['email', 'phone'] }, // Asume alias 'client' para el cliente
+        { model: Slot, attributes: ['date', 'startTime'] } // Atributos de fecha y hora del slot
+      ]
+    });
+
+    // Verificar si se encontraron los detalles del cliente y del slot
+    if (!appointmentDetails || !appointmentDetails.client || !appointmentDetails.Slot) {
+      return res.status(404).json({ message: 'No se pudieron obtener los detalles del cliente o del horario de la cita' });
+    }
+
+    // Obtener los detalles de la cita para la notificación
+    const detallesCita = {
+      fecha: appointmentDetails.Slot.date,
+      hora: appointmentDetails.Slot.time,
+      clienteEmail: appointmentDetails.client.email,
+      clienteTelefono: appointmentDetails.client.phone,
+    };
+console.log(detallesCita.clienteEmail)
+console.log(detallesCita.clienteTelefono)
+    // Enviar confirmación por correo y SMS
+    await enviarCorreoConfirmacion(detallesCita.clienteEmail, detallesCita);
+  // Enviar confirmación por SMS si hay un número de teléfono
+  if (detallesCita.clienteTelefono) {
+    await enviarSmsConfirmacion(detallesCita.clienteTelefono, detallesCita);
+  }
+
 
     // Respuesta exitosa
     res.status(201).json({
@@ -82,3 +113,34 @@ exports.deleteAppointment = async (req, res) => {
     res.status(500).json({ message: 'Error al eliminar cita', error: err.message });
   }
 };
+
+// Obtener citas por ID de cliente o profesional
+exports.getAppointmentsByUser = async (req, res) => {
+  try {
+    const { idUser, role } = req.params;
+
+    // Configurar el criterio de búsqueda basado en el rol
+    const whereCondition = role === 'client' 
+      ? { idUserClient: idUser } 
+      : { idUserProfessional: idUser };
+
+    // Buscar citas con la condición adecuada
+    const appointments = await Appointment.findAll({
+      where: whereCondition,
+      include: [
+        { model: User, as: 'client', attributes: ['id'] },
+        { model: User, as: 'professional', attributes: ['id'] },
+        { model: Slot, attributes: ['id', 'startTime', 'endTime'] }
+      ]
+    });
+
+    if (appointments.length > 0) {
+      res.status(200).json({ appointments });
+    } else {
+      res.status(404).json({ message: 'No se encontraron citas para este usuario' });
+    }
+  } catch (err) {
+    res.status(500).json({ message: 'Error al obtener citas', error: err.message });
+  }
+};
+

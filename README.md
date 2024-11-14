@@ -56,3 +56,4 @@ Una vez que la aplicación esté corriendo, puedes acceder a ella a través de t
 - Asegúrate de que no haya otros servicios usando los mismos puertos que Apache y MySQL.
 - Si tienes problemas, revisa los registros de errores en XAMPP y la consola de tu terminal.
 
+
