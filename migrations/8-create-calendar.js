@@ -23,6 +23,7 @@ module.exports = {
       slug: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true
       },
       startTime: {
         type: Sequelize.TIME,
