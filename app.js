@@ -23,6 +23,14 @@ const slotRoutes = require("./routes/slotRoutes");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 
+//Importar módulo WebSocket, http para mensajería interna
+const WebSocket = require('ws')
+
+//Importar método handleConnection para mensajería interna
+const handleConnection = require("./controllers/chat-ws-controller");
+
+//#USO DE VARIABLES
+
 // Use JSON Middleware
 app.use(express.json());
 
@@ -93,5 +101,14 @@ app.use("/api/servicesUser", serviceuserRoutes);
 app.use("/api/slots", slotRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/", authRoutes);
+
+//Configuración Mensajería (WEBSOCKET)
+const wss = new WebSocket.Server({port: 8080});
+
+const sockets = new Map();
+
+wss.on('connection', (ws) => {
+  handleConnection(ws, sockets);
+});
 
 module.exports = app;
