@@ -45,15 +45,7 @@ app.use(
 );
 
 
-// CSRF Protection - Solo habilitado en producción
-if (process.env.NODE_ENV === "production" || true) {
-  app.use(csrf({ cookie: true }));
-  app.use((err, req, res, next) => {
-    if(err.code === 'EBADCSRFTOKEN') return res.status(403).json({message: 'Token CSRF inválido'});
-    res.cookie("XSRF-TOKEN", req.csrfToken());
-    next();
-  });
-}
+// Eliminar CSRF Protection por completo
 
 // Swagger (para documentación)
 const swaggerUI = require("swagger-ui-express");
