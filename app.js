@@ -46,21 +46,15 @@ app.use(
   cors({
     origin: process.env.ALLOWED_HOSTS
       ? process.env.ALLOWED_HOSTS.split(",")
-      : ["http://localhost:4000", "http://localhost:3000"],
-    credentials: true,
+      : ["http://localhost:4000", "http://localhost:5173"], // Se agrega localhost:5173
+      origin: "*", // Permite cualquier origen
+      credentials: true, // No se permiten credenciales (puedes cambiar a true si las necesitas)
   })
 );
 
 
-// CSRF Protection - Solo habilitado en producción
-if (process.env.NODE_ENV === "production" || true) {
-  app.use(csrf({ cookie: true }));
-  app.use((err, req, res, next) => {
-    if(err.code === 'EBADCSRFTOKEN') return res.status(403).json({message: 'Token CSRF inválido'});
-    res.cookie("XSRF-TOKEN", req.csrfToken());
-    next();
-  });
-}
+// CSRF Protection - eliminado
+
 
 // Swagger (para documentación)
 const swaggerUI = require("swagger-ui-express");
