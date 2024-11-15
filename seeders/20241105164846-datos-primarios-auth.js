@@ -20,6 +20,7 @@ module.exports = {
         names: 'Administrador',
         email: 'admin@test.cl',
         password: await bcrypt.hash('admin123', 10),
+        registered: true,
         idRole: 1
       }
     ]);

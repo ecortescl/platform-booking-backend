@@ -44,7 +44,8 @@ exports.loginUser = [
 
       res.header("Authorization", `Bearer ${token}`).json({
         message: "Inicio de sesión exitoso.",
-        token: token
+        token: token,
+        user: user
       });
     } catch (err) {
       console.error(err);

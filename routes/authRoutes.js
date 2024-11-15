@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const AuthController = require('../controllers/auth-controller')
+const AuthController = require('../controllers/auth-controller');
 
 /**
  * @swagger
@@ -18,13 +18,6 @@ const AuthController = require('../controllers/auth-controller')
  *       tags: [Auth]
  *       summary: "Autenticación de usuario"
  *       operationId: "loginUser"
- *       parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
  *       requestBody:
  *         required: true
  *         content:
@@ -75,12 +68,11 @@ const AuthController = require('../controllers/auth-controller')
 
 router.post('/login', AuthController.loginUser);
 
-
 /**
  * @swagger
  * /api/csrf-token:
  *  get:
- *      summary: Get CSRF Token
+ *      summary: Get CSRF Token (this is removed if not needed)
  *      tags: [Auth]
  *      responses:
  *          200:
@@ -97,6 +89,6 @@ router.post('/login', AuthController.loginUser);
  *                              csrfToken: "exampleCsrfToken"
  */
 
-router.get('/csrf-token', AuthController.csrfToken);
+router.get('/csrf-token', AuthController.csrfToken); // You can remove this if you no longer need the CSRF endpoint
 
 module.exports = router;
