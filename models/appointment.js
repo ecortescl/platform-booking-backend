@@ -27,8 +27,8 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Appointment.associate = function(models) {
-    Appointment.belongsTo(models.User, { foreignKey: 'idUserClient'});
-    Appointment.belongsTo(models.User, { foreignKey: 'idUserProfessional'});
+    Appointment.belongsTo(models.User, {  as: 'client',foreignKey: 'idUserClient'});
+    Appointment.belongsTo(models.User, {  as: 'professional',foreignKey: 'idUserProfessional'});
     Appointment.belongsTo(models.Slot, { foreignKey: 'idSlot'});
     Appointment.hasMany(models.Comment, { foreignKey: 'idAppointment'})
   };

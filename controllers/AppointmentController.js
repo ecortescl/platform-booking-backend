@@ -1,10 +1,41 @@
 const { Appointment, User, Slot, Comment } = require('../models'); // Importa todos los modelos necesarios
-
+const { enviarCorreoConfirmacion, enviarCorreoRecordatorio } = require('../services/emailService');
+const { enviarSmsConfirmacion, enviarSmsRecordatorio } = require('../services/smsService');
 // Crear una nueva cita
 exports.createAppointment = async (req, res) => {
   try {
     // Crear la cita
     const newAppointment = await Appointment.create(req.body);
+
+    // Consultar los datos del cliente y del slot de la cita
+    const appointmentDetails = await Appointment.findByPk(newAppointment.id, {
+      include: [
+        { model: User, as: 'client', attributes: ['email', 'phone'] }, // Asume alias 'client' para el cliente
+        { model: Slot, attributes: ['date', 'startTime'] } // Atributos de fecha y hora del slot
+      ]
+    });
+
+    // Verificar si se encontraron los detalles del cliente y del slot
+    if (!appointmentDetails || !appointmentDetails.client || !appointmentDetails.Slot) {
+      return res.status(404).json({ message: 'No se pudieron obtener los detalles del cliente o del horario de la cita' });
+    }
+
+    // Obtener los detalles de la cita para la notificación
+    const detallesCita = {
+      fecha: appointmentDetails.Slot.date,
+      hora: appointmentDetails.Slot.time,
+      clienteEmail: appointmentDetails.client.email,
+      clienteTelefono: appointmentDetails.client.phone,
+    };
+console.log(detallesCita.clienteEmail)
+console.log(detallesCita.clienteTelefono)
+    // Enviar confirmación por correo y SMS
+    await enviarCorreoConfirmacion(detallesCita.clienteEmail, detallesCita);
+  // Enviar confirmación por SMS si hay un número de teléfono
+  if (detallesCita.clienteTelefono) {
+    await enviarSmsConfirmacion(detallesCita.clienteTelefono, detallesCita);
+  }
+
 
     // Respuesta exitosa
     res.status(201).json({

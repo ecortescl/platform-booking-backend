@@ -35,8 +35,8 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Review, { foreignKey: 'idUserWriter'})
     User.hasMany(models.Review, { foreignKey: 'idUserReceiver'})
     User.hasMany(models.Calendar, { foreignKey: 'idUser'});
-    User.hasMany(models.Appointment, { foreignKey: 'idUserClient'})
-    User.hasMany(models.Appointment, { foreignKey: 'idUserProfessional'})
+    User.hasMany(models.Appointment, { as: 'client', foreignKey: 'idUserClient'})
+    User.hasMany(models.Appointment, { as: 'professional', foreignKey: 'idUserProfessional'})
     User.hasMany(models.Comment, { foreignKey: 'idUser'});
     User.hasMany(models.ServicesUser, { foreignKey: 'idUser'});
   };

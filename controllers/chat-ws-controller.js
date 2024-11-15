@@ -1,5 +1,5 @@
 const User = require('../models/').User
-const { getAllRows, db } = require('../util/SQLiteDB')
+const { getAllRows, db } = require('../util/SQLiteDB.js')
 
 function handleConnection(ws, sockets) {
     ws.on('message', async (message) => {
