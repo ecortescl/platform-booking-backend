@@ -216,4 +216,46 @@ router.put('/:id', authenticateToken, ServiceController.updateService);
 // Ruta para eliminar un servicio por su ID
 router.delete('/:id', authenticateToken, ServiceController.deleteService);
 
+
+/**
+ * @swagger
+ * /api/services/user/{idUser}:
+ *  get:
+ *      summary: Obtener todos los servicios de un usuario
+ *      tags: [Service]
+ *      parameters:
+ *        - in: path
+ *          name: idUser
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: ID del usuario cuyos servicios se quieren obtener
+ *      responses:
+ *          200:
+ *              description: Lista de servicios del usuario
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items: 
+ *                              $ref: '#components/schemas/Service'
+ *          404:
+ *              description: No se encontraron servicios para este usuario
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al obtener servicios
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
+ */
+
+// Ruta para obtener todos los servicios de un usuario por su ID
+router.get('/user/:idUser', authenticateToken, ServiceController.getServicesByUserId);
+
 module.exports = router;

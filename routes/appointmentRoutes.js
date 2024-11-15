@@ -237,4 +237,52 @@ router.put('/:id', authenticateToken, AppointmentController.updateAppointment);
 // Ruta para eliminar una cita por ID
 router.delete('/:id', authenticateToken, AppointmentController.deleteAppointment);
 
+/**
+ * @swagger
+ * /api/appointments/user/{idUser}/{role}:
+ *  get:
+ *      summary: Obtener todas las citas de un cliente o profesional
+ *      tags: [Appointment]
+ *      parameters:
+ *        - in: path
+ *          name: idUser
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: ID del usuario (cliente o profesional)
+ *        - in: path
+ *          name: role
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: Rol del usuario (client o professional)
+ *      responses:
+ *          200:
+ *              description: Lista de citas del usuario
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items: 
+ *                              $ref: '#components/schemas/Appointment'
+ *          404:
+ *              description: No se encontraron citas para este usuario
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al obtener citas
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
+ */
+
+// Ruta para obtener todas las citas de un usuario específico, según su rol
+router.get('/user/:idUser/:role', authenticateToken, AppointmentController.getAppointmentsByUser);
+
+
 module.exports = router;

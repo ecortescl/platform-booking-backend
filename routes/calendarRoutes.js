@@ -242,4 +242,46 @@ router.put('/:id', authenticateToken, CalendarController.updateCalendar);
 // Ruta para eliminar un calendario por ID
 router.delete('/:id', authenticateToken, CalendarController.deleteCalendar);
 
+/**
+ * @swagger
+ * /api/calendars/user/{idUser}:
+ *  get:
+ *      summary: Obtener todos los calendarios de un usuario
+ *      tags: [Calendar]
+ *      parameters:
+ *        - in: path
+ *          name: idUser
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: ID del usuario cuyos calendarios se quieren obtener
+ *      responses:
+ *          200:
+ *              description: Calendarios del usuario
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items: 
+ *                              $ref: '#components/schemas/Calendar'
+ *          404:
+ *              description: No se encontraron calendarios para este usuario
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/Message'
+ *          500:
+ *              description: Error interno al obtener los calendarios del usuario
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
+ */
+
+// Ruta para obtener todos los calendarios de un usuario por su ID
+router.get('/user/:idUser', authenticateToken, CalendarController.getCalendarsByUserId);
+
+
 module.exports = router;

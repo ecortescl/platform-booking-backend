@@ -113,3 +113,34 @@ exports.deleteAppointment = async (req, res) => {
     res.status(500).json({ message: 'Error al eliminar cita', error: err.message });
   }
 };
+
+// Obtener citas por ID de cliente o profesional
+exports.getAppointmentsByUser = async (req, res) => {
+  try {
+    const { idUser, role } = req.params;
+
+    // Configurar el criterio de búsqueda basado en el rol
+    const whereCondition = role === 'client' 
+      ? { idUserClient: idUser } 
+      : { idUserProfessional: idUser };
+
+    // Buscar citas con la condición adecuada
+    const appointments = await Appointment.findAll({
+      where: whereCondition,
+      include: [
+        { model: User, as: 'client', attributes: ['id'] },
+        { model: User, as: 'professional', attributes: ['id'] },
+        { model: Slot, attributes: ['id', 'startTime', 'endTime'] }
+      ]
+    });
+
+    if (appointments.length > 0) {
+      res.status(200).json({ appointments });
+    } else {
+      res.status(404).json({ message: 'No se encontraron citas para este usuario' });
+    }
+  } catch (err) {
+    res.status(500).json({ message: 'Error al obtener citas', error: err.message });
+  }
+};
+
