@@ -319,6 +319,6 @@ router.get('/user/:idUser', authenticateToken, CalendarController.getCalendarsBy
  */
 
 // Ruta para obtener un calendario por su ID
-router.get('/:slug', authenticateToken, CalendarController.getCalendarBySlug);
+router.get('/:slug', CalendarController.getCalendarBySlug);
 
 module.exports = router;
