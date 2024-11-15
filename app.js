@@ -39,7 +39,8 @@ app.use(
     origin: process.env.ALLOWED_HOSTS
       ? process.env.ALLOWED_HOSTS.split(",")
       : ["http://localhost:4000", "http://localhost:5173"], // Se agrega localhost:5173
-    credentials: true,
+      origin: "*", // Permite cualquier origen
+      credentials: false, // No se permiten credenciales (puedes cambiar a true si las necesitas)
   })
 );
 
