@@ -141,7 +141,7 @@ module.exports = {
       {
         startDate: '2024-12-01',
         endDate: '2024-12-31',
-        slug: 'abc123456789',
+        slug: `${users[0].names}-${users[0].surnames}-calendar-1`.replace(/\s+/g, '').toLowerCase(),
         startTime: '09:00:00',
         endTime: '18:00:00',
         bookingDuration: 60,
@@ -150,7 +150,7 @@ module.exports = {
       {
         startDate: '2024-12-01',
         endDate: '2024-12-31',
-        slug: 'abc987654321',
+        slug: `${users[3].names}-${users[3].surnames}-calendar-1`.replace(/\s+/g, '').toLowerCase(),
         startTime: '09:00:00',
         endTime: '18:00:00',
         bookingDuration: 60,

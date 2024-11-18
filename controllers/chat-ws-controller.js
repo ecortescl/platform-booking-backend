@@ -1,7 +1,8 @@
 const User = require('../models/').User
+const { enviarNotificacionMensaje } = require('../services/emailService.js');
 const { getAllRows, db } = require('../util/SQLiteDB.js')
 
-function handleConnection(ws, sockets) {
+function handleConnection(ws, sockets, notCli) {
     ws.on('message', async (message) => {
         const data = JSON.parse(message)
 
@@ -101,6 +102,18 @@ function handleConnection(ws, sockets) {
                     const stmt = db.prepare('insert into message (senderId, receiverId, msg) values (?, ?, ?)');
                     stmt.run(data.senderId, data.receiverId, data.message);
                     stmt.finalize();
+
+                    if(!notCli.has(data.receiverId)) {
+                        const _userNoti = await User.findOne({
+                            where: { id: data.receiverId },
+                            attributes: ['email','names', 'surnames']
+                        });
+
+                        try { 
+                            await enviarNotificacionMensaje(_userNoti)
+                            notCli.add(data.receiverId)
+                        }catch {}
+                    }
                 }
 
                 break;
@@ -110,10 +123,20 @@ function handleConnection(ws, sockets) {
                 try {
                     const socketToDis = sockets.get(data.id);
                     sockets.delete(data.id);
+                    notCli.delete(data.id)
                     socketToDis.close();
                 } catch (err) { }
                 break;
         }
+    })
+
+    ws.on('close', () => {
+        try {
+            const socketToDis = sockets.get(data.id);
+            sockets.delete(data.id);
+            notCli.delete(data.id);
+            socketToDis.close();
+        } catch (err) { }
     })
 }
 

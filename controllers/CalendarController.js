@@ -13,7 +13,7 @@ exports.createCalendar = async (req, res) => {
 
     const calCount = await Calendar.count({ where: { idUser: idUser }})
     const numCal = calCount + 1
-    const slug = user.names.concat('-', user.surnames, '-calendar-', numCal).replace(' ', '').toLowerCase()
+    const slug = `${user.names}-${user.surnames}-calendar-${numCal}`.replace(/\s+/g, '').toLowerCase();
 
     // Crear el calendario
     const newCalendar = await Calendar.create({

@@ -106,9 +106,10 @@ app.use("/api/", authRoutes);
 const wss = new WebSocket.Server({port: 8080});
 
 const sockets = new Map();
+const notCli = new Set();
 
 wss.on('connection', (ws) => {
-  handleConnection(ws, sockets);
+  handleConnection(ws, sockets, notCli);
 });
 
 module.exports = app;

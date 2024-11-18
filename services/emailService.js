@@ -34,4 +34,13 @@ async function enviarCorreoRecordatorio(clienteEmail, detallesCita) {
   await transporter.sendMail(mailOptions);
 }
 
-module.exports = { enviarCorreoConfirmacion, enviarCorreoRecordatorio };
+async function enviarNotificacionMensaje(client) {
+  await transporter.sendMail({
+    from: process.env.EMAIL_USER,
+    to: client.email,
+    subject: 'Notificación de Mensaje',
+    text: `Hola ${client.names + ' ' + client.surnames}, tienes mensajer por leer`,
+  });
+}
+
+module.exports = { enviarCorreoConfirmacion, enviarCorreoRecordatorio, enviarNotificacionMensaje };
