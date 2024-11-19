@@ -14,40 +14,38 @@ exports.createAppointment = async (req, res) => {
       appointment: newAppointment
     });
 
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Error al crear cita', error: err.message });
-  } finally {
-    if (newAppointment) {
-      // Consultar los datos del cliente y del slot de la cita
-      const appointmentDetails = await Appointment.findByPk(newAppointment.id, {
-        include: [
-          { model: User, as: 'client', attributes: ['email', 'phone'] }, // Asume alias 'client' para el cliente
-          { model: Slot, attributes: ['date', 'startTime'] } // Atributos de fecha y hora del slot
-        ]
-      });
+    try {
+      if (newAppointment) {
+        // Consultar los datos del cliente y del slot de la cita
+        const appointmentDetails = await Appointment.findByPk(newAppointment.id, {
+          include: [
+            { model: User, as: 'client', attributes: ['email', 'phone'] }, // Asume alias 'client' para el cliente
+            { model: Slot, attributes: ['date', 'startTime'] } // Atributos de fecha y hora del slot
+          ]
+        });
 
-      // Verificar si se encontraron los detalles de la cita
-      if (appointmentDetails) {
-        // Obtener los detalles de la cita para la notificación
-        const detallesCita = {
-          fecha: appointmentDetails.Slot.date,
-          hora: appointmentDetails.Slot.time,
-          clienteEmail: appointmentDetails.client.email,
-          clienteTelefono: appointmentDetails.client.phone,
-        };
+        // Verificar si se encontraron los detalles de la cita
+        if (appointmentDetails) {
+          // Obtener los detalles de la cita para la notificación
+          const detallesCita = {
+            fecha: appointmentDetails.Slot.date,
+            hora: appointmentDetails.Slot.time,
+            clienteEmail: appointmentDetails.client.email,
+            clienteTelefono: appointmentDetails.client.phone,
+          };
 
-        try {
           // Enviar confirmación por correo y SMS
           await enviarCorreoConfirmacion(detallesCita.clienteEmail, detallesCita);
           // Enviar confirmación por SMS si hay un número de teléfono
           if (detallesCita.clienteTelefono) {
             await enviarSmsConfirmacion(detallesCita.clienteTelefono, detallesCita);
           }
-        } catch { }
-
+        }
       }
-    }
+    }catch {}
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error al crear cita', error: err.message });
   }
 };
 
@@ -145,4 +143,3 @@ exports.getAppointmentsByUser = async (req, res) => {
     res.status(500).json({ message: 'Error al obtener citas', error: err.message });
   }
 };
-

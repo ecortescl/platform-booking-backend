@@ -124,12 +124,12 @@ exports.deleteUser = async (req, res) => {
 
 exports.getProfessionalsBySearch = async (req, res) => {
   try {
-    const { specialty, ubication: location, service } = req.body;
+    const { specialty, location, service } = req.body;
 
     const users = await User.findAll({
       where: {
-        specialty: { [Op.like]: specialty === undefined ? '%' : `%${specialty}%` },
-        location: { [Op.like]: location === undefined ? '%' : `%${location}%` }
+        specialty: { [Op.iLike]: specialty === undefined ? '%' : `%${specialty}%` },
+        location: { [Op.iLike]: location === undefined ? '%' : `%${location}%` }
       },
       include: [
         {
@@ -137,7 +137,7 @@ exports.getProfessionalsBySearch = async (req, res) => {
           include: [
             {
               model: Service,
-              where: { name: { [Op.like]: service === undefined ? '%' : `%${service}%` } }
+              where: { name: { [Op.iLike]: service === undefined ? '%' : `%${service}%` } }
             }
           ]
         }

@@ -339,6 +339,6 @@ router.delete('/:id', authenticateToken, UserController.deleteUser);
  *                          type: object
  *                          $ref: '#components/schemas/MessageError'
  */
-router.post('/search/', authenticateToken, UserController.getProfessionalsBySearch)
+router.post('/search/', UserController.getProfessionalsBySearch)
 
 module.exports = router;
