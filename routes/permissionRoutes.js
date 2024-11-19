@@ -54,13 +54,7 @@ router.get('/', authenticateToken, PermissionController.getPermissions);
  *  post:
  *      summary: create a new permission
  *      tags: [Permission]
- *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *      requestBody:
  *          required: true
  *          content:
@@ -130,12 +124,7 @@ router.get('/:id', authenticateToken, PermissionController.getPermissionById);
  *      summary: update a permission
  *      tags: [Permission]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:
@@ -178,12 +167,7 @@ router.put('/:id', authenticateToken, PermissionController.updatePermission);
  *      summary: delete a permission
  *      tags: [Permission]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:

@@ -64,13 +64,7 @@ router.get('/', authenticateToken, CommentController.getComments);
  *  post:
  *      summary: create a new comment
  *      tags: [Comment]
- *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *      requestBody:
  *          required: true
  *          content:
@@ -140,12 +134,7 @@ router.get('/:id', authenticateToken, CommentController.getCommentById);
  *      summary: update a comment
  *      tags: [Comment]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:
@@ -188,12 +177,7 @@ router.put('/:id', authenticateToken, CommentController.updateComment);
  *      summary: delete a comment
  *      tags: [Comment]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:

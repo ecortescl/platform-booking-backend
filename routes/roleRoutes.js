@@ -54,13 +54,7 @@ router.get('/', authenticateToken, RoleController.getRoles);
  *  post:
  *      summary: create a new role
  *      tags: [Role]
- *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *      requestBody:
  *          required: true
  *          content:
@@ -135,12 +129,7 @@ router.get('/:id', authenticateToken, RoleController.getRoleById);
  *      summary: update a role
  *      tags: [Role]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:
@@ -183,12 +172,7 @@ router.put('/:id', authenticateToken, RoleController.updateRole);
  *      summary: delete a role
  *      tags: [Role]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:

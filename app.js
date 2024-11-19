@@ -2,7 +2,6 @@
 const express = require("express");
 const cors = require("cors");
 const xss = require("xss-clean");
-const csrf = require("csurf");
 const cookieParser = require("cookie-parser");
 
 require("dotenv").config(); // Cargar las variables de entorno
@@ -37,8 +36,7 @@ app.use(express.json());
 // xss-clean - Sanitizar datos de entrada
 app.use(xss());
 
-// Cookie Parser - Necesario para CSRF
-app.use(cookieParser());
+
 
 
 // CORS
@@ -53,7 +51,7 @@ app.use(
 );
 
 
-// CSRF Protection - eliminado
+
 
 
 // Swagger (para documentación)

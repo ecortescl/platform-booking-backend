@@ -107,13 +107,7 @@ router.get('/', authenticateToken, UserController.getUsers);
  *  post:
  *      summary: create an new user
  *      tags: [User]
- *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  * 
  *      requestBody:
  *          required: true
@@ -184,12 +178,7 @@ router.get('/:id', authenticateToken, UserController.getUserById);
  *      summary: update an user
  *      tags: [User]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:
@@ -232,12 +221,7 @@ router.put('/:id', authenticateToken, UserController.updateUser);
  *      summary: delete an user
  *      tags: [User]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:

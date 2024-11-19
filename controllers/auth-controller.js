@@ -56,8 +56,3 @@ exports.loginUser = [
   },
 ];
 
-//Método para obtener CRSF
-exports.csrfToken = (req, res) => {
-  const token = req.csrfToken();
-  res.json({ csrfToken: token });
-};

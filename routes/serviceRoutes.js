@@ -66,13 +66,7 @@ router.get('/', authenticateToken, ServiceController.getServices);
  *                  schema:
  *                      type: object
  *                      $ref: '#/components/schemas/Service'
- *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *      responses:
  *          201:
  *              description: new service created
@@ -134,12 +128,7 @@ router.get('/:id', authenticateToken, ServiceController.getServiceById);
  *      summary: update a service
  *      tags: [Service]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:
@@ -182,12 +171,7 @@ router.put('/:id', authenticateToken, ServiceController.updateService);
  *      summary: delete a service
  *      tags: [Service]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:
