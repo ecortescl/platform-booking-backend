@@ -82,13 +82,7 @@ router.get('/', authenticateToken, CalendarController.getCalendars);
  *  post:
  *      summary: create a new calendar
  *      tags: [Calendar]
- *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *      requestBody:
  *          required: true
  *          content:
@@ -158,12 +152,7 @@ router.get('/:id', authenticateToken, CalendarController.getCalendarById);
  *      summary: update a calendar
  *      tags: [Calendar]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:
@@ -206,12 +195,7 @@ router.put('/:id', authenticateToken, CalendarController.updateCalendar);
  *      summary: delete a calendar
  *      tags: [Calendar]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:

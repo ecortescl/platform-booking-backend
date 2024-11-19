@@ -59,13 +59,7 @@ router.get('/', authenticateToken, PermissionsRoleController.getPermissionsRoles
  *  post:
  *      summary: create a new PermissionRole
  *      tags: [PermissionRole]
- *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *      requestBody:
  *          required: true
  *          content:
@@ -135,12 +129,7 @@ router.get('/:id', authenticateToken, PermissionsRoleController.getPermissionsRo
  *      summary: update a PermissionRole
  *      tags: [PermissionRole]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:
@@ -183,12 +172,7 @@ router.put('/:id', authenticateToken, PermissionsRoleController.updatePermission
  *      summary: delete a role permission
  *      tags: [PermissionRole]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:

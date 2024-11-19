@@ -69,13 +69,7 @@ router.get('/', authenticateToken, ReviewController.getReviews);
  *  post:
  *      summary: create a new review
  *      tags: [Review]
- *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *      requestBody:
  *          required: true
  *          content:
@@ -145,12 +139,7 @@ router.get('/:id', authenticateToken, ReviewController.getReviewById);
  *      summary: update a review
  *      tags: [Review]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:
@@ -193,12 +182,7 @@ router.put('/:id', authenticateToken, ReviewController.updateReview);
  *      summary: delete a review
  *      tags: [Review]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:

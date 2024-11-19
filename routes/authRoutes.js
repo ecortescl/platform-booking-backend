@@ -68,27 +68,4 @@ const AuthController = require('../controllers/auth-controller');
 
 router.post('/login', AuthController.loginUser);
 
-/**
- * @swagger
- * /api/csrf-token:
- *  get:
- *      summary: Get CSRF Token (this is removed if not needed)
- *      tags: [Auth]
- *      responses:
- *          200:
- *              description: CSRF token retrieved successfully
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              csrfToken:
- *                                  type: string
- *                                  description: The CSRF token to be used in subsequent requests
- *                          example:
- *                              csrfToken: "exampleCsrfToken"
- */
-
-router.get('/csrf-token', AuthController.csrfToken); // You can remove this if you no longer need the CSRF endpoint
-
 module.exports = router;

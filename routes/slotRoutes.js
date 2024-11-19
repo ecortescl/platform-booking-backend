@@ -74,13 +74,7 @@ router.get('/', authenticateToken, SlotController.getSlots);
  *  post:
  *      summary: create a new slot
  *      tags: [Slot]
- *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *      requestBody:
  *          required: true
  *          content:
@@ -150,12 +144,7 @@ router.get('/:id', authenticateToken, SlotController.getSlotById);
  *      summary: update a slot
  *      tags: [Slot]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:
@@ -198,12 +187,7 @@ router.put('/:id', authenticateToken, SlotController.updateSlot);
  *      summary: delete a slot
  *      tags: [Slot]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:

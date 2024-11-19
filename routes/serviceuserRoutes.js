@@ -59,13 +59,7 @@ router.get('/', authenticateToken, ServicesUserController.getServicesUsers);
  *  post:
  *      summary: create a new ServiceUser
  *      tags: [ServiceUser]
- *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *      requestBody:
  *          required: true
  *          content:
@@ -135,12 +129,7 @@ router.get('/:id', authenticateToken, ServicesUserController.getServicesUserById
  *      summary: update a ServiceUser
  *      tags: [ServiceUser]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:
@@ -183,12 +172,7 @@ router.put('/:id', authenticateToken, ServicesUserController.updateServicesUser)
  *      summary: delete a ServiceUser
  *      tags: [ServiceUser]
  *      parameters:
- *          - in: header
- *            name: CSRF-Token
- *            required: true
- *            description: CSRF token for protection against cross-site request forgery
- *            schema:
- *              type: string
+
  *          - in: path
  *            name: id
  *            schema:
