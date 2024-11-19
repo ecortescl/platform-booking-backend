@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const { Comment, User, Appointment } = require('../models'); // Importa todos los modelos necesarios
 
 // Crear un nuevo comentario
@@ -82,3 +83,15 @@ exports.deleteComment = async (req, res) => {
     res.status(500).json({ message: 'Error al eliminar comentario', error: err.message });
   }
 };
+
+exports.getCommentsByIdAppointment = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const comments = Comment.findAll({ where: { idAppointment: id} })
+
+    res.status(200).json(comments);
+  }catch(error) {
+    res.status(500).json({ message: 'Error al obtener los comentarios', error: err.message });
+  }
+}

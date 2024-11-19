@@ -222,4 +222,38 @@ router.put('/:id', authenticateToken, CommentController.updateComment);
 // Ruta para eliminar un comentario por ID
 router.delete('/:id', authenticateToken, CommentController.deleteComment);
 
+/**
+ * @swagger
+ * /api/comments/appointment/{id}:
+ *  get:
+ *      summary: return all comments for an appointment id
+ *      tags: [Comment]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: the appointment id
+ *      responses:
+ *          200:
+ *              description: return all comment
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#components/schemas/Comment'
+ *          500:
+ *              description: Error interno al obtener comments
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
+ */
+
+// Ruta para obtener un comentario por su ID
+router.get('/appointment/:id', authenticateToken, CommentController.getCommentById);
+
 module.exports = router;

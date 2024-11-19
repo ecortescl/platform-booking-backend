@@ -9,6 +9,54 @@ const { authenticateToken }= require('../middleware/authMiddleware')
  * @swagger  
  * components:
  *  schemas:
+ *      ServiceUser2:
+ *          type: object
+ *          properties:
+ *              id:
+ *                  type: integer
+ *              idUser:
+ *                  type: integer
+ *              idService:
+ *                  type: integer
+ *              Services:
+ *                  type: array
+ *                  $ref: '#/components/schemas/Service' 
+ *      User2:
+ *          type: object
+ *          properties:
+ *              run:
+ *                  type: string
+ *                  description: The run of user
+ *              names:
+ *                  type: string
+ *                  description: The names of user
+ *              surnames:
+ *                  type: string
+ *                  description: The surnames of user
+ *              email:
+ *                  type: string
+ *                  description: The email of user
+ *              phone:
+ *                  type: string
+ *                  description: The phone of user
+ *              password:
+ *                  type: string
+ *                  description: The password of user
+ *              location:
+ *                  type: string
+ *                  description: The location of professional user
+ *              specialty:
+ *                  type: string
+ *                  description: The specialty of professional user
+ *              registered:
+ *                  type: string
+ *                  description: The state of register of user
+ *              idRole:
+ *                  type: integer
+ *                  description: The role id of user
+ *              ServicesUser:
+ *                  type: array
+ *                  $ref: '#/components/schemas/ServiceUser2'
  *      User:
  *          type: object
  *          properties:
@@ -265,5 +313,48 @@ router.put('/:id', authenticateToken, UserController.updateUser);
 
 // Ruta para eliminar un usuario por su ID
 router.delete('/:id', authenticateToken, UserController.deleteUser);
+
+/**
+ * @swagger
+ * /api/users/search:
+ *  post:
+ *      summary: create an new user
+ *      tags: [User]
+ * 
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          specialty:
+ *                              type: string
+ *                              description: the professional specialty
+ *                          location:
+ *                              type: string
+ *                              description: the professional location
+ *                          service:
+ *                              type: string
+ *                              description: the professional service
+ *                      
+ *      responses:
+ *          200:
+ *              descriptiom: return users by search
+ *              content:
+ *                  aplication/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#/components/schemas/User2'
+ *                              
+ *          500:
+ *              description: Error interno al cobtener usuarios
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          $ref: '#components/schemas/MessageError'
+ */
+router.post('/search/', authenticateToken, UserController.getProfessionalsBySearch)
 
 module.exports = router;

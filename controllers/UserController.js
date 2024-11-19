@@ -1,7 +1,8 @@
-const { User, Role, Review, Calendar, Appointment, Comment, ServicesUser } = require('../models'); // Importa todos los modelos necesarios
+const { User, ServicesUser, Service } = require('../models'); // Importa todos los modelos necesarios
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const { body, validationResult } = require('express-validator');
+const { Op, where } = require('sequelize');
 
 // Crear un nuevo usuario
 exports.createUser = [
@@ -120,3 +121,31 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ message: 'Error al eliminar usuario', error: err.message });
   }
 };
+
+exports.getProfessionalsBySearch = async (req, res) => {
+  try {
+    const { specialty, ubication: location, service } = req.body;
+
+    const users = await User.findAll({
+      where: {
+        specialty: { [Op.like]: specialty === undefined ? '%' : `%${specialty}%` },
+        location: { [Op.like]: location === undefined ? '%' : `%${location}%` }
+      },
+      include: [
+        {
+          model: ServicesUser,
+          include: [
+            {
+              model: Service,
+              where: { name: { [Op.like]: service === undefined ? '%' : `%${service}%` } }
+            }
+          ]
+        }
+      ]
+    });
+
+    return res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json({ message: 'Error al obtener usuarios', error: err.message });
+  }
+}
