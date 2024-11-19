@@ -63,7 +63,7 @@ module.exports = {
       {
         run: '12533345-1',
         names: 'Felipe Antonio',
-        email: 'FAntonio@test.cl',
+        email: 'fantonio@test.cl',
         password: await bcrypt.hash('password', 10),
         registered: true,
         idRole: roles[1].id
