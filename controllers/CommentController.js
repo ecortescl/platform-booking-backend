@@ -22,7 +22,20 @@ exports.createComment = async (req, res) => {
 // Obtener todos los comentarios
 exports.getComments = async (req, res) => {
   try {
-    const comments = await Comment.findAll();
+    const page = req.query.page != undefined ? parseInt(req.query.page) : undefined
+    let comments
+    if(page) {
+      const limit = 10;
+      const offset = (page -1) * limit;
+
+      comments = await Comment.findAll({
+        limit: limit,
+        offset: offset,
+        order: [['id', 'ASC']]
+      });
+    }else {
+      comments = await Comment.findAll();
+    }
     res.status(200).json({ comments });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener comentarios', error: err.message });

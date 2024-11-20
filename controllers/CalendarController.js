@@ -41,7 +41,21 @@ exports.createCalendar = async (req, res) => {
 // Obtener todos los calendarios
 exports.getCalendars = async (req, res) => {
   try {
-    const calendars = await Calendar.findAll();
+    const page = req.query.page != undefined ? parseInt(req.query.page) : undefined
+    let calendars
+    
+    if(page) {
+      const limit = 10;
+      const offset = (page-1) * limit;
+
+      calendars = await Calendar.findAll({
+        limit: limit,
+        offset: offset,
+        order: [['id', 'ASC']]
+      });
+    }else {
+      calendars = await Calendar.findAll();
+    }
     res.status(200).json({ calendars });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener calendarios', error: err.message });

@@ -55,7 +55,21 @@ exports.createAppointment = async (req, res) => {
 // Obtener todas las citas
 exports.getAppointments = async (req, res) => {
   try {
-    const appointments = await Appointment.findAll();
+    const page = req.query.page != undefined ? parseInt(req.query.page) : undefined
+    let appointments
+
+    if(page) {  
+      const limit = 10;
+      const offset = (page -1) * limit;
+
+      appointments = await Appointment.findAll({
+        limit: limit,
+        offset: offset,
+        order: [['id', 'ASC']]
+      });
+    }else {
+      appointments = await Appointment.findAll();
+    }
     res.status(200).json({ appointments });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener citas', error: err.message });

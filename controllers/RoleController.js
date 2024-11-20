@@ -21,7 +21,21 @@ exports.createRole = async (req, res) => {
 // Obtener todos los roles
 exports.getRoles = async (req, res) => {
   try {
-    const roles = await Role.findAll();
+    const page = req.query.page != undefined ? parseInt(req.query.page) : undefined
+    let roles
+
+    if(page) {
+      const limit = 10;
+      const offset = (page -1) * limit;
+
+      roles = await Role.findAll({
+        limit: limit,
+        offset: offset,
+        order: [['id', 'ASC']]
+      });
+    }else {
+      roles = await Role.findAll();
+    }
     res.status(200).json({ roles });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener roles', error: err.message });

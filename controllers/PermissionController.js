@@ -21,7 +21,21 @@ exports.createPermission = async (req, res) => {
 // Obtener todos los permisos
 exports.getPermissions = async (req, res) => {
   try {
-    const permissions = await Permission.findAll();
+    const page = req.query.page != undefined ? parseInt(req.query.page) : undefined
+    let permissions
+
+    if(page) {
+      const limit = 10;
+      const offset = (page -1) * limit;
+
+      permissions = await Permission.findAll({
+        limit: limit,
+        offset: offset,
+        order: [['id', 'ASC']]
+      });
+    }else {
+      permissions = await Permission.findAll();
+    }
     res.status(200).json({ permissions });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener permisos', error: err.message });

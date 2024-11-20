@@ -27,6 +27,13 @@ const { authenticateToken }= require('../middleware/authMiddleware')
  *  get:
  *      summary: return all permissions
  *      tags: [Permission]
+ *      parameters:
+ *        - in: query
+ *          name: page
+ *          schema:
+ *              type: string
+ *          required: false
+ *          description: number of page (10 elements per page)
  *      responses:
  *          200:
  *              description: all permissions

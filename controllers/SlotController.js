@@ -21,7 +21,21 @@ exports.createSlot = async (req, res) => {
 // Obtener todos los slots
 exports.getSlots = async (req, res) => {
   try {
-    const slots = await Slot.findAll();
+    const page = req.query.page != undefined ? parseInt(req.query.page) : undefined
+    let slots
+
+    if(page) {
+      const limit = 10;
+      const offset = (page -1) * limit
+
+      slots = await Slot.findAll({
+        limit: limit,
+        offset: offset,
+        order: [['id', 'ASC']]
+      });
+    }else {
+      slots = await Slot.findAll();
+    }
     res.status(200).json({ slots });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener slots', error: err.message });

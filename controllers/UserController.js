@@ -59,7 +59,21 @@ exports.createUser = [
 // Obtener todos los usuarios
 exports.getUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const page = req.query.page != undefined ? parseInt(req.query.page) : undefined
+    let users
+
+    if(page) {
+      const limit = 10;
+      const offset = (page -1) * limit
+
+      users = await User.findAll({
+        limit: limit,
+        offset: offset,
+        order: [['id', 'ASC']]
+      });
+    }else {
+      users = await User.findAll();
+    }
     res.status(200).json({ users });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener usuarios', error: err.message });

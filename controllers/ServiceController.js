@@ -21,7 +21,21 @@ exports.createService = async (req, res) => {
 // Obtener todos los servicios
 exports.getServices = async (req, res) => {
   try {
-    const services = await Service.findAll();
+    const page = req.query.page != undefined ? parseInt(req.query.page) : undefined
+    let services
+
+    if(page) {
+      const limit = 10;
+      const offset = (page -1) * limit;
+
+      services = await Service.findAll({
+        limit: limit,
+        offset: offset,
+        order: [['id', 'ASC']]
+      });
+    }else {
+      services = await Service.findAll();
+    }
     res.status(200).json({ services });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener servicios', error: err.message });

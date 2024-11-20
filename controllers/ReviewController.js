@@ -21,7 +21,21 @@ exports.createReview = async (req, res) => {
 // Obtener todas las reseñas
 exports.getReviews = async (req, res) => {
   try {
-    const reviews = await Review.findAll();
+    const page = req.query.page != undefined ? parseInt(req.query.page) : undefined
+    let reviews
+
+    if(page) {
+      const limit = 10;
+      const offset = (page -1) * limit;
+
+      reviews = await Review.findAll({
+        limit: limit,
+        offset: offset,
+        order: [['id', 'ASC']]
+      });
+    }else {
+      reviews = await Review.findAll();
+    }
     res.status(200).json({ reviews });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener reseñas', error: err.message });

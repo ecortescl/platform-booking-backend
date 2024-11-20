@@ -21,7 +21,21 @@ exports.createServicesUser = async (req, res) => {
 // Obtener todos los servicios de usuarios
 exports.getServicesUsers = async (req, res) => {
   try {
-    const servicesUsers = await ServicesUser.findAll();
+    const page = req.query.page != undefined ? parseInt(req.query.page) : undefined
+    let servicesUsers
+
+    if(page) {
+      const limit = 10;
+      const offset = (page -1) * limit;
+
+      servicesUsers = await ServicesUser.findAll({
+        limit: limit,
+        offset, offset,
+        order: [['id', 'ASC']]
+      });
+    }else {
+      servicesUsers = await ServicesUser.findAll();
+    }
     res.status(200).json({ servicesUsers });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener servicios de usuarios', error: err.message });

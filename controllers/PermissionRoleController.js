@@ -21,7 +21,21 @@ exports.createPermissionsRole = async (req, res) => {
 // Obtener todos los permisos de roles
 exports.getPermissionsRoles = async (req, res) => {
   try {
-    const permissionsRoles = await PermissionsRole.findAll();
+    const page = req.query.page != undefined ? parseInt(req.query.page) : undefined
+    let permissionsRoles 
+
+    if(page) {
+      const limit = 10;
+      const offset = (page -1) * limit;
+
+      permissionsRoles = await PermissionsRole.findAll({
+        limit: limit,
+        offset: offset,
+        order: [['id', 'ASC']]
+      });
+    }else {
+      permissionsRoles = await PermissionsRole.findAll();
+    }
     res.status(200).json({ permissionsRoles });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener permisos de roles', error: err.message });
