@@ -1,4 +1,4 @@
-const { Appointment, User, Slot, Comment } = require('../models'); // Importa todos los modelos necesarios
+const { Appointment, User, Slot } = require('../models'); // Importa todos los modelos necesarios
 const { enviarCorreoConfirmacion, enviarCorreoRecordatorio } = require('../services/emailService');
 const { enviarSmsConfirmacion, enviarSmsRecordatorio } = require('../services/smsService');
 
@@ -7,6 +7,10 @@ exports.createAppointment = async (req, res) => {
   try {
     // Crear la cita
     const newAppointment = await Appointment.create(req.body);
+
+    const { idSlot } = req.body;
+
+    await Slot.update({ state: 'Reservado'}, { where: { id: idSlot }})
 
     // Respuesta exitosa
     res.status(201).json({
