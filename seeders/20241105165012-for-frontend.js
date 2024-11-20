@@ -45,7 +45,7 @@ module.exports = {
       {
         run: '12345687-4',
         names: 'Juan Alfonso',
-        email: 'JAlfonso@test.cl',
+        email: 'jalfonso@test.cl',
         password: await bcrypt.hash('password', 10),
         specialty: 'Médico General',
         location: 'Av. San Pablo #8980, Pudahuel, Santiago',
@@ -55,7 +55,7 @@ module.exports = {
       {
         run: '9876543-1',
         names: 'Pedro Andrés',
-        email: 'PAndres@test.cl',
+        email: 'pandres@test.cl',
         password: await bcrypt.hash('password', 10),
         registered: true,
         idRole: roles[1].id
@@ -63,7 +63,7 @@ module.exports = {
       {
         run: '12533345-1',
         names: 'Felipe Antonio',
-        email: 'FAntonio@test.cl',
+        email: 'fantonio@test.cl',
         password: await bcrypt.hash('password', 10),
         registered: true,
         idRole: roles[1].id
@@ -71,7 +71,7 @@ module.exports = {
       {
         run: '8765536-9',
         names: 'Almendra Rayen',
-        email: 'ARayen@test.cl',
+        email: 'arayen@test.cl',
         password: await bcrypt.hash('password', 10),
         specialty: 'Pediatra',
         location: 'Av. Vicuña Mackenna #1016, Renca, Santiago',

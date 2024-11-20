@@ -48,7 +48,6 @@ exports.createAppointment = async (req, res) => {
       }
     }catch {}
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: 'Error al crear cita', error: err.message });
   }
 };
