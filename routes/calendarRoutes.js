@@ -267,7 +267,7 @@ router.get('/user/:idUser', authenticateToken, CalendarController.getCalendarsBy
 
 /**
  * @swagger
- * /api/calendars/{slug}:
+ * /api/calendars/slug/{slug}:
  *  get:
  *      summary: return a calendar
  *      tags: [Calendar]
@@ -303,6 +303,6 @@ router.get('/user/:idUser', authenticateToken, CalendarController.getCalendarsBy
  */
 
 // Ruta para obtener un calendario por su ID
-router.get('/:slug', CalendarController.getCalendarBySlug);
+router.get('/slug/:slug', CalendarController.getCalendarBySlug);
 
 module.exports = router;
